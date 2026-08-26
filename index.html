@@ -1,0 +1,1931 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>BAB 3 - Peran Pahlawan</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            overflow: hidden;
+            width: 100vw;
+            height: 100vh;
+            background: #2c1810;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        .game-container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            transition: opacity 0.5s ease;
+        }
+
+        .screen.active {
+            display: flex;
+        }
+
+        /* ========== SCREEN 1: PEMBUKA ========== */
+        #screen-pembuka {
+            background-image: url('Asset/images/bg_1.png');
+        }
+
+        .pembuka-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0;
+            padding: 10px 20px 20px;
+            height: 100%;
+            box-sizing: border-box;
+        }
+
+        .judul-container {
+            text-align: center;
+            width: 100%;
+            margin-bottom: 5px;
+        }
+
+        .judul-container img {
+            max-width: 60%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .misi-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 55%;
+            max-width: 500px;
+        }
+
+        .misi-container {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 800 / 350;
+            overflow: hidden;
+        }
+
+        .misi-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .misi-carousel-wrapper {
+            position: absolute;
+            top: 25%;
+            left: 12%;
+            right: 12%;
+            bottom: 22%;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .misi-carousel {
+            display: flex;
+            transition: transform 0.4s ease;
+            width: 100%;
+            height: 100%;
+        }
+
+        .misi-slide {
+            min-width: 100%;
+            max-width: 100%;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .misi-content {
+            text-align: center;
+            font-family: 'Nunito', sans-serif;
+            width: 100%;
+        }
+
+        .misi-content h3 {
+            color: #2c3e50;
+            font-family: 'Nunito', sans-serif;
+            font-size: clamp(12px, 2.5vw, 18px);
+            font-weight: 800;
+            margin: 0 0 6px 0;
+            line-height: 1.3;
+        }
+
+        .misi-content p {
+            color: #1a1a2e;
+            font-family: 'Nunito', sans-serif;
+            font-size: clamp(10px, 2vw, 14px);
+            font-weight: 600;
+            margin: 0;
+            text-align: center;
+            line-height: 1.5;
+        }
+
+        .misi-content ul {
+            text-align: left;
+            padding-left: 18px;
+            margin: 0 auto;
+            color: #1a1a2e;
+            font-family: 'Nunito', sans-serif;
+            font-size: clamp(10px, 2vw, 14px);
+            font-weight: 600;
+            max-width: 90%;
+        }
+
+        .misi-content ul li {
+            margin: 4px 0;
+            line-height: 1.4;
+        }
+
+        .carousel-nav {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: -5px;
+        }
+
+        .carousel-btn {
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            background: #758793;
+            color: #fff;
+            border: none;
+            font-family: 'Nunito', sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s;
+            line-height: 1;
+            flex-shrink: 0;
+        }
+
+        .carousel-btn:hover {
+            background: #4f5c6c;
+        }
+
+        .carousel-dots {
+            display: flex;
+            gap: 6px;
+        }
+
+        .carousel-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #ccc;
+            border: none;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .carousel-dot.active {
+            background: #419ba5;
+        }
+
+        .btn-mulai {
+            display: inline-block;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 0;
+            margin-top: 15px;
+            transition: transform 0.2s ease, opacity 0.3s ease;
+            opacity: 0.3;
+            pointer-events: none;
+        }
+
+        .btn-mulai.enabled {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .btn-mulai:hover {
+            transform: scale(1.05);
+            filter: brightness(1.1);
+        }
+
+        .btn-mulai:active {
+            transform: scale(0.98);
+        }
+
+        .btn-mulai img {
+            width: 80%;
+            height: auto;
+        }
+
+        /* Top bar - shared across all screens */
+        .top-bar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 16px;
+            z-index: 50;
+        }
+
+        .top-bar-left,
+        .top-bar-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .top-bar-btn {
+            width: 44px;
+            height: 44px;
+            min-width: 44px;
+            min-height: 44px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            background: transparent;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        .top-bar-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .top-bar-btn img {
+            width: 44px;
+            height: 44px;
+            object-fit: contain;
+        }
+
+        .logo-kemendikdasmen {
+            width: 64px;
+            height: 64px;
+            min-width: 64px;
+            min-height: 64px;
+            object-fit: contain;
+        }
+
+        /* ========== SCREEN 2: PETUNJUK ========== */
+        #screen-petunjuk {
+            background-image: url('Asset/images/bg_1.png');
+        }
+
+        .petunjuk-panel {
+            position: relative;
+            background: url('Asset/images/petunjuk.svg') center/contain no-repeat;
+            border-radius: 0;
+            padding: 80px 80px 100px;
+            max-width: 700px;
+            width: 90%;
+            text-align: center;
+            box-shadow: none;
+            border: none;
+            transform: translateY(-60px);
+        }
+
+        .petunjuk-content {
+            margin-top: 180px;
+        }
+
+        .petunjuk-title {
+            font-size: 28px;
+            font-weight: 800;
+            color: #e8534f;
+            margin-bottom: 20px;
+        }
+
+        .petunjuk-text {
+            font-size: 16px;
+            color: #4f5c6c;
+            line-height: 1.8;
+            margin-bottom: 25px;
+            font-weight: 500;
+        }
+
+        .petunjuk-text strong {
+            color: #e8534f;
+        }
+
+        .petunjuk-steps {
+            text-align: left;
+            margin-bottom: 25px;
+        }
+
+        .petunjuk-step {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 12px;
+            font-size: 15px;
+            color: #4f5c6c;
+            font-weight: 500;
+        }
+
+        .petunjuk-step:last-child {
+            margin-bottom: 0;
+        }
+
+        .step-number {
+            background: #e8534f;
+            color: white;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+
+        .btn-selanjutnya {
+            background: none;
+            color: white;
+            border: none;
+            padding: 0;
+            cursor: pointer;
+            transition: all 0.2s ease, opacity 0.3s ease;
+            display: block;
+            margin: 100px auto 0;
+            opacity: 0.3;
+            pointer-events: none;
+        }
+
+        .btn-selanjutnya.enabled {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .btn-selanjutnya img {
+            width: 56px;
+            height: auto;
+        }
+
+        .btn-selanjutnya:hover {
+            transform: scale(1.1);
+            filter: brightness(1.1);
+        }
+
+        .btn-selanjutnya:active {
+            transform: scale(0.98);
+        }
+
+        /* ========== SCREEN 3: MAIN ========== */
+        #screen-main {
+            background-image: url('Asset/images/bg_2.svg');
+        }
+
+        .main-layout {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            max-width: 1200px;
+            padding: 0 20px;
+        }
+
+        .main-board-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .main-side-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+            flex-shrink: 0;
+        }
+
+        .main-side-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .main-side-btn:active {
+            transform: scale(0.95);
+        }
+
+        .main-side-btn img {
+            width: 64px;
+            height: auto;
+        }
+
+        .main-skor-display {
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .main-skor-display img {
+            width: 120px;
+            height: auto;
+            display: block;
+        }
+
+        .skor-label {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: 'Nunito', sans-serif;
+            font-size: 22px;
+            font-weight: 900;
+            color: #fff;
+            white-space: nowrap;
+            pointer-events: none;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5), 0 0 8px rgba(0,0,0,0.2);
+            letter-spacing: 1px;
+        }
+
+        .main-board-container {
+            position: relative;
+            width: 100%;
+            max-width: 560px;
+            aspect-ratio: 1063.5631 / 485.36401;
+            flex-shrink: 1;
+            min-width: 0;
+        }
+
+        .main-board {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        .drop-zone {
+            position: absolute;
+            border: 3px dashed rgba(232, 83, 79, 0.4);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            pointer-events: all;
+            background: rgba(232, 83, 79, 0.08);
+            z-index: 1;
+        }
+
+        .drop-zone span {
+            font-family: 'Nunito', sans-serif;
+            font-size: clamp(10px, 1.6vw, 14px);
+            font-weight: 700;
+            color: rgba(232, 83, 79, 0.5);
+            pointer-events: none;
+        }
+
+        .drop-zone.drag-over {
+            border-color: #e8534f;
+            background: rgba(232, 83, 79, 0.2);
+            transform: scale(1.03);
+        }
+
+        .drop-zone.occupied {
+            border-color: #419ba5;
+            background: rgba(65, 155, 165, 0.15);
+        }
+
+        .drop-zone.occupied span {
+            display: none;
+        }
+
+        .placed-card {
+            position: absolute;
+            cursor: pointer;
+            display: none;
+            z-index: 2;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.2s ease;
+        }
+
+        .placed-card:hover {
+            transform: scale(1.03);
+        }
+
+        .placed-card:hover::after {
+            content: 'Klik untuk kembalikan';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(232, 83, 79, 0.85);
+            color: #fff;
+            font-family: 'Nunito', sans-serif;
+            font-size: 11px;
+            font-weight: 700;
+            text-align: center;
+            padding: 6px 4px;
+            pointer-events: none;
+        }
+
+        .placed-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .hero-name-label {
+            position: absolute;
+            top: 2px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(30, 30, 30, 0.85);
+            color: #FFD700;
+            font-family: 'Nunito', sans-serif;
+            font-size: 13px;
+            font-weight: 800;
+            padding: 3px 14px;
+            border-radius: 0 0 8px 8px;
+            z-index: 5;
+            text-align: center;
+            pointer-events: none;
+            white-space: nowrap;
+        }
+
+        .main-cards {
+            display: flex;
+            gap: 14px;
+            width: 100%;
+            max-width: 1000px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .main-card {
+            width: 150px;
+            height: 225px;
+            border-radius: 12px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 3px solid transparent;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        .main-card:active {
+            cursor: grabbing;
+        }
+
+        .main-card.dragging {
+            opacity: 0.4;
+            transform: scale(0.95);
+        }
+
+        .main-card.picked {
+            border-color: #e8534f;
+            transform: translateY(-6px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(232,83,79,0.5);
+            animation: pulse 1s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 8px 25px rgba(232,83,79,0.5); }
+            50% { box-shadow: 0 8px 35px rgba(232,83,79,0.8); }
+        }
+
+        .main-card:hover {
+            transform: translateY(-4px) scale(1.03);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+
+        .main-card.selected {
+            border-color: #e8534f;
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(232,83,79,0.4);
+        }
+
+        .main-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            pointer-events: none;
+        }
+
+        .main-header {
+            display: none;
+        }
+
+        .score-display {
+            background: rgba(79, 92, 108, 0.9);
+            color: #efede7;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: 800;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .score-display .skor-icon {
+            width: 24px;
+            height: 24px;
+        }
+
+        .main-content {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            padding: 70px 20px 20px;
+        }
+
+        /* Score display in top bar */
+
+        .column-headers {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 15px;
+            max-width: 900px;
+            width: 100%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .column-header {
+            text-align: center;
+            font-size: 14px;
+            font-weight: 800;
+            color: #efede7;
+            background: rgba(79, 92, 108, 0.9);
+            padding: 8px 10px;
+            border-radius: 10px;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            grid-template-rows: repeat(5, 1fr);
+            gap: 12px;
+            max-width: 900px;
+            width: 100%;
+            margin: 0 auto;
+            flex: 1;
+            max-height: calc(100vh - 160px);
+        }
+
+        .card-slot {
+            background: rgba(211, 207, 197, 0.3);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 80px;
+            border: 2px dashed rgba(206, 200, 183, 0.5);
+            transition: all 0.3s ease;
+        }
+
+        .card-slot.highlight {
+            border-color: #419ba5;
+            background: rgba(65, 155, 165, 0.1);
+        }
+
+        .card-slot.matched {
+            border-color: #419ba5;
+            background: rgba(65, 155, 165, 0.15);
+        }
+
+        .card-slot.wrong {
+            border-color: #e8534f;
+            background: rgba(232, 83, 79, 0.15);
+            animation: shake 0.5s ease;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        .card {
+            width: 100%;
+            height: 100%;
+            min-height: 80px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 13px;
+            font-weight: 700;
+            text-align: center;
+            padding: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        .card.selected {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+            z-index: 5;
+        }
+
+        .card-asal {
+            background: linear-gradient(135deg, #f5e6d3, #e8d5c0);
+            border: 2px solid #d4b896;
+            color: #4f5c6c;
+        }
+
+        .card-foto {
+            background: linear-gradient(135deg, #d3cfc5, #c5bfb0);
+            border: 2px solid #b5a995;
+            padding: 5px;
+        }
+
+        .card-foto img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .card-peran {
+            background: linear-gradient(135deg, #e8f0f2, #d5e3e8);
+            border: 2px solid #b5ccd5;
+            color: #4f5c6c;
+        }
+
+        .card .card-label {
+            font-size: 10px;
+            font-weight: 800;
+            color: #e8534f;
+            margin-bottom: 4px;
+        }
+
+        .card .card-text {
+            font-size: 12px;
+            font-weight: 600;
+            line-height: 1.3;
+        }
+
+        /* ========== SCREEN 4: PENUTUP ========== */
+        #screen-penutup {
+            background-image: url('Asset/images/bg_1.png');
+        }
+
+        .penutup-panel {
+            background: rgba(239, 237, 231, 0.95);
+            border-radius: 16px;
+            padding: 40px 50px;
+            max-width: 550px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+            border: 3px solid #cec8b7;
+        }
+
+        .penutup-title {
+            font-size: 28px;
+            font-weight: 800;
+            color: #e8534f;
+            margin-bottom: 20px;
+        }
+
+        .penutup-score {
+            font-size: 48px;
+            font-weight: 900;
+            color: #419ba5;
+            margin-bottom: 10px;
+        }
+
+        .penutup-subtitle {
+            font-size: 16px;
+            color: #9ca9b0;
+            font-weight: 600;
+            margin-bottom: 30px;
+        }
+
+        .penutup-message {
+            font-size: 18px;
+            color: #4f5c6c;
+            font-weight: 700;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .btn-ulangi {
+            background: none;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-right: 10px;
+            padding: 0;
+        }
+
+        .btn-ulangi:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn-ulangi img {
+            width: 80px;
+            height: auto;
+        }
+
+        .btn-home {
+            background: none;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            padding: 0;
+        }
+
+        .btn-home:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn-home img {
+            width: 80px;
+            height: auto;
+        }
+
+        .penutup-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* ========== FEEDBACK OVERLAY ========== */
+        .feedback-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            background: rgba(0,0,0,0.5);
+        }
+
+        .feedback-overlay.show {
+            display: flex;
+        }
+
+        .feedback-box {
+            background: white;
+            border-radius: 20px;
+            padding: 40px 50px;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            animation: popIn 0.3s ease;
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0.5); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .feedback-icon {
+            font-size: 60px;
+            margin-bottom: 15px;
+        }
+
+        .feedback-text {
+            font-size: 22px;
+            font-weight: 800;
+            margin-bottom: 20px;
+        }
+
+        .feedback-text.correct {
+            color: #419ba5;
+        }
+
+        .feedback-text.incorrect {
+            color: #e8534f;
+        }
+
+        .feedback-btn {
+            background: #419ba5;
+            color: white;
+            border: none;
+            padding: 10px 30px;
+            border-radius: 20px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: 'Nunito', sans-serif;
+        }
+
+        /* ========== RESPONSIVE ========== */
+        @media (max-width: 768px) {
+            .column-headers {
+                gap: 8px;
+                margin-bottom: 10px;
+            }
+
+            .column-header {
+                font-size: 11px;
+                padding: 6px 5px;
+            }
+
+            .cards-grid {
+                gap: 8px;
+                max-height: calc(100vh - 140px);
+            }
+
+            .card {
+                font-size: 10px;
+                padding: 5px;
+                min-height: 60px;
+            }
+
+            .card .card-label {
+                font-size: 8px;
+            }
+
+            .card .card-text {
+                font-size: 9px;
+            }
+
+            .petunjuk-panel,
+            .penutup-panel {
+                padding: 20px;
+                width: 95%;
+            }
+
+            .petunjuk-title,
+            .penutup-title {
+                font-size: 22px;
+            }
+
+            .petunjuk-text {
+                font-size: 14px;
+            }
+
+            .penutup-score {
+                font-size: 36px;
+            }
+
+            .btn-mulai img {
+                width: 160px;
+            }
+
+            .logo-kemendikdasmen {
+                width: 36px;
+                height: 36px;
+                min-width: 36px;
+                min-height: 36px;
+            }
+
+            .top-bar-btn {
+                width: 36px;
+                height: 36px;
+                min-width: 36px;
+                min-height: 36px;
+            }
+
+            .top-bar-btn img {
+                width: 36px;
+                height: 36px;
+            }
+
+            .header-btn {
+                display: none;
+            }
+
+            .score-display {
+                font-size: 13px;
+                padding: 6px 14px;
+            }
+
+            .main-card {
+                width: 120px;
+                height: 180px;
+            }
+
+            .main-cards {
+                gap: 10px;
+            }
+
+            .main-side-btn img {
+                width: 48px;
+            }
+
+            .main-skor-display img {
+                width: 90px;
+            }
+
+            .skor-label {
+                font-size: 17px;
+            }
+
+            .main-board-row {
+                gap: 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .cards-grid {
+                gap: 5px;
+            }
+
+            .card {
+                font-size: 8px;
+                min-height: 50px;
+                padding: 3px;
+            }
+
+            .column-header {
+                font-size: 9px;
+                padding: 4px 3px;
+            }
+
+            .main-content {
+                padding: 60px 10px 10px;
+            }
+
+            .main-card {
+                width: 90px;
+                height: 135px;
+            }
+
+            .main-cards {
+                gap: 6px;
+            }
+
+            .main-side-btn img {
+                width: 36px;
+            }
+
+            .main-skor-display img {
+                width: 70px;
+            }
+
+            .skor-label {
+                font-size: 11px;
+            }
+
+            .main-board-row {
+                gap: 6px;
+            }
+        }
+
+        /* ========== FULLSCREEN ========== */
+        .fullscreen-btn {
+            display: none;
+        }
+
+        /* ========== ANIMATIONS ========== */
+        .fade-in {
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .confetti {
+            position: fixed;
+            top: -10px;
+            width: 10px;
+            height: 10px;
+            border-radius: 2px;
+            animation: confettiFall 3s ease-in forwards;
+            z-index: 200;
+        }
+
+        @keyframes confettiFall {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <!-- SCREEN 1: PEMBUKA -->
+        <div id="screen-pembuka" class="screen active">
+            <div class="top-bar">
+                <div class="top-bar-left">
+                    <img src="Asset/images/Logo_Kemendikdasmen.svg" alt="Kemendikdasmen" class="logo-kemendikdasmen">
+                </div>
+                <div class="top-bar-right">
+                    <button class="top-bar-btn" onclick="toggleMusic()" title="Musik" id="btn-music-pembuka">
+                        <img src="Asset/images/btn_music-on.svg" alt="Musik" id="music-icon-pembuka">
+                    </button>
+                    <button class="top-bar-btn" onclick="toggleFullscreen()" title="Fullscreen">
+                        <img src="Asset/images/btn_fullscreen.svg" alt="Fullscreen">
+                    </button>
+                </div>
+            </div>
+            <div class="pembuka-content fade-in">
+                <div class="judul-container">
+                    <img src="Asset/images/judul.svg" alt="Peran Pahlawan">
+                </div>
+                <div class="misi-section">
+                    <div class="misi-container">
+                        <img class="misi-bg" src="Asset/images/misi.svg" alt="">
+                        <div class="misi-carousel-wrapper">
+                            <div class="misi-carousel" id="misiCarousel">
+                                <div class="misi-slide">
+                                    <div class="misi-content">
+                                        <h3>Tujuan Pembelajaran</h3>
+                                        <ul>
+                                            <li>Mencari tahu Peran Perjuangan para pahlawan bagi daerah tempat tinggal.</li>
+                                            <li>Mengelaborasi Peran Perjuangan para pahlawan bagi daerah tempat tinggal.</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="misi-slide">
+                                    <div class="misi-content">
+                                        <h3>Misi</h3>
+                                        <p>Pasangkan 3 set kartu Pahlawan yang berisi Foto, Nama dan Asal, serta Peran Perjuangannya secara tepat!</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="carousel-nav">
+                        <button class="carousel-btn" onclick="prevSlide()">&lt;</button>
+                        <div class="carousel-dots">
+                            <button class="carousel-dot active" onclick="goToSlide(0)"></button>
+                            <button class="carousel-dot" onclick="goToSlide(1)"></button>
+                        </div>
+                        <button class="carousel-btn" onclick="nextSlide()">&gt;</button>
+                    </div>
+                </div>
+                <button class="btn-mulai" onclick="showScreen('screen-petunjuk')" aria-label="Mulai">
+                    <img src="Asset/images/mulai.svg" alt="Mulai">
+                </button>
+            </div>
+        </div>
+
+        <!-- SCREEN 2: PETUNJUK -->
+        <div id="screen-petunjuk" class="screen">
+            <div class="top-bar">
+                <div class="top-bar-left">
+                    <img src="Asset/images/Logo_Kemendikdasmen.svg" alt="Kemendikdasmen" class="logo-kemendikdasmen">
+                </div>
+                <div class="top-bar-right">
+                    <button class="top-bar-btn" onclick="toggleMusic()" title="Musik" id="btn-music-petunjuk">
+                        <img src="Asset/images/btn_music-on.svg" alt="Musik" id="music-icon-petunjuk">
+                    </button>
+                    <button class="top-bar-btn" onclick="toggleFullscreen()" title="Fullscreen">
+                        <img src="Asset/images/btn_fullscreen.svg" alt="Fullscreen">
+                    </button>
+                </div>
+            </div>
+            <div class="petunjuk-panel fade-in">
+                <div class="petunjuk-content">
+                    <div class="petunjuk-title">Petunjuk Permainan</div>
+                    <div class="petunjuk-steps">
+                        <div class="petunjuk-step">
+                            <div class="step-number">1</div>
+                            <div>Di layar permainan, kamu akan melihat 3 kolom kosong untuk menyusun kartu. Kamu bebas menempatkan kartu Foto, Asal Daerah, atau Peran Pahlawan ke kolom mana saja.</div>
+                        </div>
+                        <div class="petunjuk-step">
+                            <div class="step-number">2</div>
+                            <div>Perhatikan kartu petunjuk (hint) yang muncul di salah satu kolom (bisa berupa foto, profil, atau peran secara acak).</div>
+                        </div>
+                        <div class="petunjuk-step">
+                            <div class="step-number">3</div>
+                            <div>Cari dan pilih 2 kartu jawaban yang paling tepat dari 6 pilihan kartu yang tersedia di bawah untuk melengkapi pasangan kartu yang sesuai dengan soal. Hati-hati dengan kartu pengecoh, ya!</div>
+                        </div>
+                        <div class="petunjuk-step">
+                            <div class="step-number">4</div>
+                            <div>Setiap jawaban yang benar akan memberimu +20 poin. Tapi ingat, kalau tebakanmu keliru, skormu akan dikurangi -5 poin. Teliti sebelum memilih, ya!</div>
+                        </div>
+                    </div>
+                </div>
+                <button class="btn-selanjutnya" onclick="startGame()">
+                    <img src="Asset/images/btn_next.svg" alt="Selanjutnya">
+                </button>
+            </div>
+        </div>
+
+        <!-- SCREEN 3: MAIN -->
+        <div id="screen-main" class="screen">
+            <div class="top-bar">
+                <div class="top-bar-left">
+                    <img src="Asset/images/Logo_Kemendikdasmen.svg" alt="Kemendikdasmen" class="logo-kemendikdasmen">
+                </div>
+                <div class="top-bar-right">
+                    <button class="top-bar-btn" onclick="toggleMusic()" title="Musik" id="btn-music-main">
+                        <img src="Asset/images/btn_music-on.svg" alt="Musik" id="music-icon-main">
+                    </button>
+                    <button class="top-bar-btn" onclick="toggleFullscreen()" title="Fullscreen">
+                        <img src="Asset/images/btn_fullscreen.svg" alt="Fullscreen">
+                    </button>
+                </div>
+            </div>
+            <div class="main-layout">
+                <div class="main-board-row">
+                    <div class="main-skor-display" id="main-skor-display">
+                        <img src="Asset/images/skor.svg" alt="Skor">
+                        <span class="skor-label" id="skor-label">Skor : <strong id="skor-value">0</strong></span>
+                    </div>
+                    <div class="main-board-container">
+                        <img src="Asset/images/main.svg" alt="Papan Permainan" class="main-board">
+                        <div class="drop-zone" id="drop-slot-0" data-slot="0"><span>1</span></div>
+                        <div class="drop-zone" id="drop-slot-1" data-slot="1"><span>2</span></div>
+                        <div class="drop-zone" id="drop-slot-2" data-slot="2"><span>3</span></div>
+                        <div class="placed-card" id="placed-0" data-slot="0"></div>
+                        <div class="placed-card" id="placed-1" data-slot="1"></div>
+                        <div class="placed-card" id="placed-2" data-slot="2"></div>
+                        <div class="hero-name-label" id="hero-name-label"></div>
+                    </div>
+                </div>
+                <div class="main-cards" id="main-cards"></div>
+            </div>
+        </div>
+
+        <!-- SCREEN 4: PENUTUP -->
+        <div id="screen-penutup" class="screen">
+            <div class="top-bar">
+                <div class="top-bar-left">
+                    <img src="Asset/images/Logo_Kemendikdasmen.svg" alt="Kemendikdasmen" class="logo-kemendikdasmen">
+                </div>
+                <div class="top-bar-right">
+                    <button class="top-bar-btn" onclick="toggleMusic()" title="Musik" id="btn-music-penutup">
+                        <img src="Asset/images/btn_music-on.svg" alt="Musik" id="music-icon-penutup">
+                    </button>
+                    <button class="top-bar-btn" onclick="toggleFullscreen()" title="Fullscreen">
+                        <img src="Asset/images/btn_fullscreen.svg" alt="Fullscreen">
+                    </button>
+                </div>
+            </div>
+            <div class="penutup-panel fade-in">
+                <div class="penutup-title">Selamat Skor Kamu :</div>
+                <div class="penutup-score" id="final-score">0</div>
+                <div class="penutup-message" id="penutup-message"></div>
+                <div class="penutup-buttons">
+                    <button class="btn-ulangi" onclick="resetGame()" title="Ulangi">
+                        <img src="Asset/images/btn_ulangi.svg" alt="Ulangi">
+                    </button>
+                    <button class="btn-home" onclick="showScreen('screen-pembuka')" title="Beranda">
+                        <img src="Asset/images/btn_close.svg" alt="Beranda">
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Feedback Overlay -->
+    <div class="feedback-overlay" id="feedback-overlay">
+        <div class="feedback-box">
+            <div class="feedback-icon" id="feedback-icon"></div>
+            <div class="feedback-text" id="feedback-text"></div>
+            <button class="feedback-btn" onclick="closeFeedback()">OK</button>
+        </div>
+    </div>
+
+    <!-- Audio Elements -->
+    <audio id="bgm" loop preload="auto">
+        <source src="Asset/audio/bgm_Ukulele-Swing.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="sfx-correct" preload="auto">
+        <source src="Asset/audio/correct.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="sfx-wrong" preload="auto">
+        <source src="Asset/audio/wrong.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="sfx-click" preload="auto">
+        <source src="Asset/audio/cursor_click_01.wav" type="audio/wav">
+    </audio>
+    <audio id="sfx-win" preload="auto">
+        <source src="Asset/audio/Winning.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="vo-pembuka" preload="auto">
+        <source src="Asset/audio/vo_pembuka.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="vo-petunjuk" preload="auto">
+        <source src="Asset/audio/vo_petunjuk.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="vo-penutup" preload="auto">
+        <source src="Asset/audio/vo_penutup.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        // ========== CAROUSEL ==========
+        let currentSlide = 0;
+        const totalSlides = 2;
+
+        function goToSlide(index) {
+            currentSlide = index;
+            const carousel = document.getElementById('misiCarousel');
+            carousel.style.transform = `translateX(-${index * 100}%)`;
+            document.querySelectorAll('.carousel-dot').forEach((dot, i) => {
+                dot.classList.toggle('active', i === index);
+            });
+        }
+
+        function prevSlide() {
+            goToSlide((currentSlide - 1 + totalSlides) % totalSlides);
+        }
+
+        function nextSlide() {
+            goToSlide((currentSlide + 1) % totalSlides);
+        }
+
+        setInterval(() => {
+            nextSlide();
+        }, 5000);
+
+        // ========== GAME DATA ==========
+        const heroes = [
+            {
+                id: 'cut',
+                name: 'Cut Nyak Dien',
+                asal: 'Lambalek, Provinsi Aceh',
+                peran: 'Memimpin gerilya rakyat Aceh melawan Belanda setelah suaminya gugur, mempertahankan martabat daerah, dan menginspirasi persatuan perjuangan',
+                foto: 'Asset/images/card_foto_cut.png',
+                asalCard: 'Asset/images/card_asal_cut.svg',
+                peranCard: 'Asset/images/card_peran_cut.svg'
+            },
+            {
+                id: 'dipo',
+                name: 'Pangeran Diponegoro',
+                asal: 'Yogyakarta',
+                peran: 'Memimpin Perang Jawa (1825-1830) melawan penindasan pajak tanah kolonial Belanda, menyatukan bangsawan dan rakyat jelata',
+                foto: 'Asset/images/card_foto_dipo.png',
+                asalCard: 'Asset/images/card_asal_dipo.svg',
+                peranCard: 'Asset/images/card_peran_dipo.svg'
+            },
+            {
+                id: 'patimura',
+                name: 'Thomas Matulessy (Pattimura)',
+                asal: 'Saparua, Kepulauan Maluku',
+                peran: 'Memimpin perlawanan bersenjata merebut Benteng Duurstede, menentang penindasan ekonomi monopoli rempah VOC di Maluku',
+                foto: 'Asset/images/card_foto_patimura.png',
+                asalCard: 'Asset/images/card_asal_patimura.svg',
+                peranCard: 'Asset/images/card_peran_patimura.svg'
+            },
+            {
+                id: 'papare',
+                name: 'Silas Papare',
+                asal: 'Serui, Papua',
+                peran: 'Mendirikan Partai Kemerdekaan Indonesia Irian untuk memperjuangkan pengembalian dan penyatuan wilayah Papua ke dalam NKRI',
+                foto: 'Asset/images/card_foto_papare.png',
+                asalCard: 'Asset/images/card_asal_papare.svg',
+                peranCard: 'Asset/images/card_peran_papare.svg'
+            },
+            {
+                id: 'riwut',
+                name: 'Tjilik Riwut',
+                asal: 'Kasongan, Kalimantan Tengah',
+                peran: 'Memimpin pasukan payung pertama TNI AU (Operasi Penerjunan di Kalimantan 1947) dan memperjuangkan pembentukan Provinsi Kalimantan Tengah',
+                foto: 'Asset/images/card_foto_riwut.png',
+                asalCard: 'Asset/images/card_asal_riwut.svg',
+                peranCard: 'Asset/images/card_peran_riwut.svg'
+            }
+        ];
+
+        // ========== GAME STATE ==========
+        let score = 0;
+        let musicPlaying = false;
+        let gamePhase = 'matching';
+        let currentHeroIndex = 0;
+        let hintSlotIndex = -1;
+        let hintType = '';
+        let correctCount = 0;
+        let pickedCardId = null;
+        let dropZonesInitialized = false;
+
+        // ========== SCREEN MANAGEMENT ==========
+        function showScreen(screenId) {
+            playSound('sfx-click');
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(screenId).classList.add('active');
+
+            if (screenId === 'screen-pembuka') {
+                const mulaiBtn = document.querySelector('.btn-mulai');
+                mulaiBtn.classList.remove('enabled');
+                const vo = document.getElementById('vo-pembuka');
+                const bgm = document.getElementById('bgm');
+                vo.currentTime = 0;
+                vo.volume = 1;
+                
+                let voStarted = false;
+                document.getElementById('screen-pembuka').onclick = () => {
+                    if (!voStarted && !mulaiBtn.classList.contains('enabled')) {
+                        voStarted = true;
+                        vo.play().then(() => {
+                            if (!bgm.paused) bgm.volume = 0.05;
+                        }).catch(() => {
+                            voStarted = false;
+                        });
+                    }
+                };
+
+                vo.onended = function() {
+                    mulaiBtn.classList.add('enabled');
+                    if (!bgm.paused) bgm.volume = 0.3;
+                };
+            } else if (screenId === 'screen-petunjuk') {
+                const lanjutBtn = document.querySelector('.btn-selanjutnya');
+                lanjutBtn.classList.remove('enabled');
+                const vo = document.getElementById('vo-petunjuk');
+                const bgm = document.getElementById('bgm');
+                vo.currentTime = 0;
+                vo.volume = 1;
+                vo.play().then(() => {
+                    if (!bgm.paused) bgm.volume = 0.05;
+                }).catch(() => {});
+                vo.onended = function() {
+                    lanjutBtn.classList.add('enabled');
+                    if (!bgm.paused) bgm.volume = 0.3;
+                };
+            }
+        }
+
+        // ========== GAME LOGIC ==========
+
+        function generateMainCards() {
+            const container = document.getElementById('main-cards');
+            container.innerHTML = '';
+            pickedCardId = null;
+            correctCount = 0;
+
+            const hero = heroes[currentHeroIndex];
+            const heroLabel = document.getElementById('hero-name-label');
+            if (heroLabel) heroLabel.textContent = (currentHeroIndex + 1) + '/5';
+            const types = ['foto', 'asal', 'peran'];
+
+            // Pick random hint slot and type
+            hintSlotIndex = Math.floor(Math.random() * 3);
+            hintType = types[Math.floor(Math.random() * 3)];
+            const neededTypes = types.filter(t => t !== hintType);
+
+            // Build tray: 2 correct cards (the types not used as hint) + 4 distractors
+            const tray = [];
+            const imgKey = { foto: 'foto', asal: 'asalCard', peran: 'peranCard' };
+            neededTypes.forEach(t => {
+                tray.push({ heroId: hero.id, type: t, img: hero[imgKey[t]], hero: hero });
+            });
+
+            const otherHeroes = heroes.filter(h => h.id !== hero.id);
+            const distractorPool = [];
+            otherHeroes.forEach(h => {
+                types.forEach(t => {
+                    distractorPool.push({ heroId: h.id, type: t, img: h[imgKey[t]], hero: h });
+                });
+            });
+            for (let i = distractorPool.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [distractorPool[i], distractorPool[j]] = [distractorPool[j], distractorPool[i]];
+            }
+            tray.push(...distractorPool.slice(0, 4));
+
+            for (let i = tray.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [tray[i], tray[j]] = [tray[j], tray[i]];
+            }
+
+            // Clear all drop zones
+            for (let s = 0; s < 3; s++) {
+                const dz = document.getElementById('drop-slot-' + s);
+                const pc = document.getElementById('placed-' + s);
+                dz.classList.remove('occupied');
+                dz.innerHTML = '<span>' + (s + 1) + '</span>';
+                dz.removeAttribute('data-card-id');
+                pc.innerHTML = '';
+                pc.style.display = 'none';
+                pc.removeAttribute('data-card-id');
+                pc.removeAttribute('data-hero');
+                pc.removeAttribute('data-type');
+            }
+
+            // Place hint card on board
+            const hintDz = document.getElementById('drop-slot-' + hintSlotIndex);
+            const hintPc = document.getElementById('placed-' + hintSlotIndex);
+            const hintImg = hero[imgKey[hintType]];
+            const hintImgEl = document.createElement('img');
+            hintImgEl.src = hintImg;
+            hintImgEl.alt = hero.name;
+            hintPc.appendChild(hintImgEl);
+            hintPc.style.display = 'flex';
+            hintPc.setAttribute('data-card-id', 'hint');
+            hintPc.setAttribute('data-hero', hero.id);
+            hintPc.setAttribute('data-type', hintType);
+            hintDz.classList.add('occupied');
+            hintDz.innerHTML = '';
+
+            // Build tray cards
+            tray.forEach((card, idx) => {
+                const div = document.createElement('div');
+                div.className = 'main-card';
+                div.id = 'game-card-' + idx;
+                div.setAttribute('data-hero', card.heroId);
+                div.setAttribute('data-type', card.type);
+                div.setAttribute('data-card-img', card.img);
+                div.innerHTML = '<img src="' + card.img + '" alt="' + card.hero.name + '">';
+                div.setAttribute('draggable', 'true');
+
+                div.addEventListener('dragstart', function(e) {
+                    e.dataTransfer.setData('text/plain', this.id);
+                    e.dataTransfer.effectAllowed = 'move';
+                    this.classList.add('dragging');
+                });
+                div.addEventListener('dragend', function() {
+                    this.classList.remove('dragging');
+                });
+
+                div.addEventListener('click', function() {
+                    if (this.classList.contains('picked')) {
+                        this.classList.remove('picked');
+                        pickedCardId = null;
+                    } else {
+                        document.querySelectorAll('.main-card.picked').forEach(c => c.classList.remove('picked'));
+                        this.classList.add('picked');
+                        pickedCardId = this.id;
+                    }
+                });
+
+                container.appendChild(div);
+            });
+
+            if (!dropZonesInitialized) {
+                initDropZones();
+                dropZonesInitialized = true;
+            }
+
+            positionDropZones();
+        }
+
+        function initDropZones() {
+            for (let s = 0; s < 3; s++) {
+                const dz = document.getElementById('drop-slot-' + s);
+
+                dz.addEventListener('dragover', function(e) {
+                    e.preventDefault();
+                    e.dataTransfer.dropEffect = 'move';
+                });
+                dz.addEventListener('dragenter', function(e) {
+                    e.preventDefault();
+                    if (!this.classList.contains('occupied')) {
+                        this.classList.add('drag-over');
+                    }
+                });
+                dz.addEventListener('dragleave', function() {
+                    this.classList.remove('drag-over');
+                });
+                dz.addEventListener('drop', function(e) {
+                    e.preventDefault();
+                    this.classList.remove('drag-over');
+                    if (this.classList.contains('occupied')) return;
+                    const cardId = e.dataTransfer.getData('text/plain');
+                    const cardEl = document.getElementById(cardId);
+                    if (cardEl) {
+                        placeCardInZone(cardEl, this);
+                    }
+                });
+
+                // Click on drop zone to place picked card
+                dz.addEventListener('click', function() {
+                    if (this.classList.contains('occupied')) return;
+                    if (!pickedCardId) return;
+                    const cardEl = document.getElementById(pickedCardId);
+                    if (cardEl) {
+                        placeCardInZone(cardEl, this);
+                        pickedCardId = null;
+                    }
+                });
+
+                // Click on placed card to return to tray
+                const pc = document.getElementById('placed-' + s);
+                pc.addEventListener('click', function() {
+                    const cardId = this.getAttribute('data-card-id');
+                    if (!cardId || cardId === 'hint') return;
+                    const cardEl = document.getElementById(cardId);
+                    if (cardEl) {
+                        cardEl.style.display = '';
+                        cardEl.classList.remove('picked');
+                    }
+                    const zone = document.getElementById('drop-slot-' + s);
+                    zone.classList.remove('occupied');
+                    zone.innerHTML = '<span>' + (s + 1) + '</span>';
+                    zone.removeAttribute('data-card-id');
+                    this.innerHTML = '';
+                    this.style.display = 'none';
+                    this.removeAttribute('data-card-id');
+                    this.removeAttribute('data-hero');
+                    this.removeAttribute('data-type');
+                    playSound('sfx-click');
+                });
+            }
+        }
+
+        function positionDropZones() {
+            const slots = [
+                { left: 7.19, top: 13.33, w: 24.94, h: 73.33 },
+                { left: 37.52, top: 13.33, w: 24.94, h: 73.33 },
+                { left: 67.90, top: 13.33, w: 24.94, h: 73.33 }
+            ];
+            for (let s = 0; s < 3; s++) {
+                const dz = document.getElementById('drop-slot-' + s);
+                const pc = document.getElementById('placed-' + s);
+                dz.style.left = slots[s].left + '%';
+                dz.style.top = slots[s].top + '%';
+                dz.style.width = slots[s].w + '%';
+                dz.style.height = slots[s].h + '%';
+                pc.style.left = slots[s].left + '%';
+                pc.style.top = slots[s].top + '%';
+                pc.style.width = slots[s].w + '%';
+                pc.style.height = slots[s].h + '%';
+            }
+        }
+
+        function placeCardInZone(cardEl, dropZone) {
+            const slotIdx = dropZone.getAttribute('data-slot');
+            const heroId = cardEl.getAttribute('data-hero');
+            const cardType = cardEl.getAttribute('data-type');
+            const cardImg = cardEl.getAttribute('data-card-img');
+
+            dropZone.classList.add('occupied');
+            dropZone.innerHTML = '';
+            dropZone.setAttribute('data-card-id', cardEl.id);
+
+            const placedCard = document.getElementById('placed-' + slotIdx);
+            placedCard.innerHTML = '<img src="' + cardImg + '" alt="Card">';
+            placedCard.style.display = 'flex';
+            placedCard.setAttribute('data-card-id', cardEl.id);
+            placedCard.setAttribute('data-hero', heroId);
+            placedCard.setAttribute('data-type', cardType);
+
+            cardEl.style.display = 'none';
+            cardEl.classList.remove('picked');
+
+            // Check if correct for current hero
+            const hero = heroes[currentHeroIndex];
+            if (heroId === hero.id) {
+                correctCount++;
+                score += 20;
+                updateScore();
+                playSound('sfx-correct');
+            } else {
+                score = Math.max(0, score - 5);
+                updateScore();
+                playSound('sfx-wrong');
+                // Bounce back: show wrong briefly then return to tray
+                setTimeout(() => {
+                    dropZone.classList.remove('occupied');
+                    dropZone.innerHTML = '<span>' + (parseInt(slotIdx) + 1) + '</span>';
+                    dropZone.removeAttribute('data-card-id');
+                    placedCard.innerHTML = '';
+                    placedCard.style.display = 'none';
+                    placedCard.removeAttribute('data-card-id');
+                    placedCard.removeAttribute('data-hero');
+                    placedCard.removeAttribute('data-type');
+                    cardEl.style.display = '';
+                    cardEl.classList.add('picked');
+                }, 500);
+            }
+
+            // Check if both remaining cards placed correctly (completing the hero)
+            if (correctCount >= 2) {
+                setTimeout(() => {
+                    currentHeroIndex++;
+                    if (currentHeroIndex >= heroes.length) {
+                        finishGame();
+                    } else {
+                        generateMainCards();
+                    }
+                }, 600);
+            }
+        }
+
+
+        function startGame() {
+            score = 0;
+            currentHeroIndex = 0;
+            gamePhase = 'matching';
+            updateScore();
+            generateMainCards();
+            showScreen('screen-main');
+            startBGM();
+        }
+
+        function updateScore() {
+            const el = document.getElementById('score');
+            if (el) el.textContent = score;
+            const skorVal = document.getElementById('skor-value');
+            if (skorVal) skorVal.textContent = score;
+        }
+
+        // ========== FINISH ==========
+        function finishGame() {
+            stopBGM();
+            playSound('sfx-win');
+            playVoice('vo-penutup');
+
+            document.getElementById('final-score').textContent = Math.floor(score / 2);
+
+            let message = '';
+            const totalPossible = heroes.length * 2 * 20;
+            const percentage = (score / totalPossible) * 100;
+
+            if (percentage >= 90) {
+                message = 'Luar biasa! Kamu benar-benar mengenal para pahlawan Indonesia!';
+            } else if (percentage >= 70) {
+                message = 'Bagus! Kamu sudah cukup mengenal peran pahlawan Indonesia!';
+            } else if (percentage >= 50) {
+                message = 'Cukup baik! Terus belajar untuk mengenal pahlawan lebih dekat!';
+            } else {
+                message = 'Jangan menyerah! Ayo belajar lagi tentang pahlawan Indonesia!';
+            }
+
+            document.getElementById('penutup-message').textContent = message;
+            showScreen('screen-penutup');
+            createConfetti();
+        }
+
+        function resetGame() {
+            startGame();
+        }
+
+        // ========== AUDIO ==========
+        function startBGM() {
+            const bgm = document.getElementById('bgm');
+            bgm.volume = 0.3;
+            bgm.play().catch(() => {});
+            musicPlaying = true;
+            updateMusicIcon();
+        }
+
+        function stopBGM() {
+            const bgm = document.getElementById('bgm');
+            bgm.pause();
+            bgm.currentTime = 0;
+            musicPlaying = false;
+            updateMusicIcon();
+        }
+
+        function toggleMusic() {
+            const bgm = document.getElementById('bgm');
+            const voPembuka = document.getElementById('vo-pembuka');
+            const voPetunjuk = document.getElementById('vo-petunjuk');
+            const voPenutup = document.getElementById('vo-penutup');
+            
+            const isVOPlaying = 
+                (voPembuka && !voPembuka.paused && !voPembuka.ended) ||
+                (voPetunjuk && !voPetunjuk.paused && !voPetunjuk.ended) ||
+                (voPenutup && !voPenutup.paused && !voPenutup.ended);
+
+            if (musicPlaying) {
+                bgm.pause();
+                musicPlaying = false;
+            } else {
+                bgm.volume = isVOPlaying ? 0.05 : 0.3;
+                bgm.play().catch(() => {});
+                musicPlaying = true;
+            }
+            updateMusicIcon();
+            playSound('sfx-click');
+        }
+
+        function updateMusicIcon() {
+            const src = musicPlaying ? 'Asset/images/btn_music-on.svg' : 'Asset/images/btn_music-off.svg';
+            document.querySelectorAll('[id^="music-icon"]').forEach(icon => {
+                icon.src = src;
+            });
+        }
+
+        function playSound(id) {
+            const audio = document.getElementById(id);
+            if (audio) {
+                audio.currentTime = 0;
+                audio.volume = 0.5;
+                audio.play().catch(() => {});
+            }
+        }
+
+        function playVoice(id) {
+            const audio = document.getElementById(id);
+            if (audio) {
+                audio.currentTime = 0;
+                audio.volume = 1;
+                const bgm = document.getElementById('bgm');
+                audio.play().then(() => {
+                    if (bgm && !bgm.paused) bgm.volume = 0.05;
+                }).catch(() => {});
+                audio.onended = function() {
+                    if (bgm && !bgm.paused) bgm.volume = 0.3;
+                };
+            }
+        }
+
+        // ========== FULLSCREEN ==========
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(() => {});
+            } else {
+                document.exitFullscreen().catch(() => {});
+            }
+            playSound('sfx-click');
+        }
+
+        // ========== FEEDBACK ==========
+        function showFeedback(isCorrect) {
+            const overlay = document.getElementById('feedback-overlay');
+            const icon = document.getElementById('feedback-icon');
+            const text = document.getElementById('feedback-text');
+
+            if (isCorrect) {
+                icon.textContent = 'Benar!';
+                text.className = 'feedback-text correct';
+                text.textContent = 'Jawaban kamu benar!';
+            } else {
+                icon.textContent = 'Salah';
+                text.className = 'feedback-text incorrect';
+                text.textContent = 'Jawaban kamu kurang tepat.';
+            }
+
+            overlay.classList.add('show');
+        }
+
+        function closeFeedback() {
+            document.getElementById('feedback-overlay').classList.remove('show');
+            playSound('sfx-click');
+        }
+
+        // ========== CONFETTI ==========
+        function createConfetti() {
+            const colors = ['#e8534f', '#419ba5', '#fbd106', '#f9a703', '#d0976f', '#b32d2a'];
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = Math.random() * 100 + 'vw';
+                    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.animationDuration = (2 + Math.random() * 2) + 's';
+                    document.body.appendChild(confetti);
+
+                    setTimeout(() => confetti.remove(), 4000);
+                }, i * 50);
+            }
+        }
+
+        // ========== INIT ==========
+        document.addEventListener('DOMContentLoaded', () => {
+            showScreen('screen-pembuka');
+        });
+
+        // Auto-play on first interaction
+        document.addEventListener('click', () => {
+            const bgm = document.getElementById('bgm');
+            if (bgm.paused && musicPlaying) {
+                bgm.play().catch(() => {});
+            }
+        }, { once: true });
+    </script>
+</body>
+</html>
