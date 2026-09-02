@@ -325,17 +325,17 @@
             position: relative;
             background: url('Asset/images/petunjuk.svg') center/contain no-repeat;
             border-radius: 0;
-            padding: 40px 50px 60px;
+            padding: 80px 80px 100px;
             max-width: 700px;
             width: 90%;
             text-align: center;
             box-shadow: none;
             border: none;
-            transform: translateY(-20px);
+            transform: translateY(-60px);
         }
 
         .petunjuk-content {
-            margin-top: 100px;
+            margin-top: 180px;
         }
 
         .petunjuk-title {
@@ -374,30 +374,6 @@
 
         .petunjuk-step:last-child {
             margin-bottom: 0;
-        }
-
-        .petunjuk-carousel-section {
-            margin-bottom: 20px;
-            width: 100%;
-        }
-
-        .petunjuk-carousel-wrapper {
-            width: 100%;
-            overflow: hidden;
-            border-radius: 12px;
-            background: rgba(255,255,255,0.5);
-            padding: 12px 16px;
-            margin-bottom: 10px;
-        }
-
-        .petunjuk-carousel {
-            display: flex;
-            transition: transform 0.4s ease;
-        }
-
-        .petunjuk-carousel .misi-slide {
-            min-width: 100%;
-            max-width: 100%;
         }
 
         .step-number {
@@ -1139,6 +1115,38 @@
                 <div class="judul-container">
                     <img src="Asset/images/judul.svg" alt="Peran Pahlawan">
                 </div>
+                <div class="misi-section">
+                    <div class="misi-container">
+                        <img class="misi-bg" src="Asset/images/misi.svg" alt="">
+                        <div class="misi-carousel-wrapper">
+                            <div class="misi-carousel" id="misiCarousel">
+                                <div class="misi-slide">
+                                    <div class="misi-content">
+                                        <h3>Tujuan Pembelajaran</h3>
+                                        <ul>
+                                            <li>Mencari tahu Peran Perjuangan para pahlawan bagi daerah tempat tinggal.</li>
+                                            <li>Mengelaborasi Peran Perjuangan para pahlawan bagi daerah tempat tinggal.</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="misi-slide">
+                                    <div class="misi-content">
+                                        <h3>Misi</h3>
+                                        <p>Pasangkan 3 set kartu Pahlawan yang berisi Foto, Nama dan Asal, serta Peran Perjuangannya secara tepat!</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="carousel-nav">
+                        <button class="carousel-btn" onclick="prevSlide()">&lt;</button>
+                        <div class="carousel-dots">
+                            <button class="carousel-dot active" onclick="goToSlide(0)"></button>
+                            <button class="carousel-dot" onclick="goToSlide(1)"></button>
+                        </div>
+                        <button class="carousel-btn" onclick="nextSlide()">&gt;</button>
+                    </div>
+                </div>
                 <button class="btn-mulai" onclick="showScreen('screen-petunjuk')" aria-label="Mulai">
                     <img src="Asset/images/mulai.svg" alt="Mulai">
                 </button>
@@ -1165,35 +1173,6 @@
             <div class="petunjuk-panel fade-in">
                 <div class="petunjuk-content">
                     <div class="petunjuk-title">Petunjuk Permainan</div>
-                    <div class="petunjuk-carousel-section">
-                        <div class="petunjuk-carousel-wrapper">
-                            <div class="petunjuk-carousel" id="misiCarousel">
-                                <div class="misi-slide">
-                                    <div class="misi-content">
-                                        <h3>Tujuan Pembelajaran</h3>
-                                        <ul>
-                                            <li>Mencari tahu Peran Perjuangan para pahlawan bagi daerah tempat tinggal.</li>
-                                            <li>Mengelaborasi Peran Perjuangan para pahlawan bagi daerah tempat tinggal.</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="misi-slide">
-                                    <div class="misi-content">
-                                        <h3>Misi</h3>
-                                        <p>Pasangkan 3 set kartu Pahlawan yang berisi Foto, Nama dan Asal, serta Peran Perjuangannya secara tepat!</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="carousel-nav">
-                            <button class="carousel-btn" onclick="prevSlide()">&lt;</button>
-                            <div class="carousel-dots">
-                                <button class="carousel-dot active" onclick="goToSlide(0)"></button>
-                                <button class="carousel-dot" onclick="goToSlide(1)"></button>
-                            </div>
-                            <button class="carousel-btn" onclick="nextSlide()">&gt;</button>
-                        </div>
-                    </div>
                     <div class="petunjuk-steps">
                         <div class="petunjuk-step">
                             <div class="step-number">1</div>
