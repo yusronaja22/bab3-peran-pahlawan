@@ -1148,9 +1148,328 @@
             0% { transform: translateY(0) rotate(0deg); opacity: 1; }
             100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
         }
+
+        /* ========== ROTATE OVERLAY ========== */
+        .rotate-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(44, 24, 16, 0.95);
+            z-index: 9999;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+        }
+
+        .rotate-overlay.show {
+            display: flex;
+        }
+
+        .rotate-icon {
+            width: 80px;
+            height: 80px;
+            animation: rotatePhone 2s ease-in-out infinite;
+        }
+
+        @keyframes rotatePhone {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(-30deg); }
+            75% { transform: rotate(30deg); }
+        }
+
+        .rotate-text {
+            color: #efede7;
+            font-family: 'Nunito', sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            text-align: center;
+            max-width: 280px;
+        }
+
+        /* ========== FULL RESPONSIVE (vw/vh) ========== */
+        @media (max-width: 768px) {
+            .pembuka-content {
+                padding: 1.5vh 3vw 3vh;
+                gap: 0;
+            }
+
+            .judul-container img {
+                max-width: 70vw;
+            }
+
+            .misi-section {
+                width: 70vw;
+                max-width: none;
+            }
+
+            .misi-container {
+                aspect-ratio: 800 / 350;
+            }
+
+            .misi-content h3 {
+                font-size: 2.2vw;
+            }
+
+            .misi-content p,
+            .misi-content ul {
+                font-size: 1.8vw;
+            }
+
+            .carousel-btn {
+                width: 6vw;
+                height: 6vw;
+                font-size: 2.5vw;
+            }
+
+            .carousel-dot {
+                width: 2vw;
+                height: 2vw;
+            }
+
+            .btn-mulai img {
+                max-width: 30vw;
+            }
+
+            .top-bar {
+                padding: 1.5vh 2vw;
+            }
+
+            .logo-kemendikdasmen {
+                width: 7vw;
+                height: 7vw;
+                min-width: 28px;
+                min-height: 28px;
+            }
+
+            .top-bar-btn {
+                width: 7vw;
+                height: 7vw;
+                min-width: 28px;
+                min-height: 28px;
+            }
+
+            .top-bar-btn img {
+                width: 100%;
+                height: 100%;
+            }
+
+            /* Petunjuk */
+            .petunjuk-panel {
+                padding: 3vh 4vw;
+                width: 92vw;
+                transform: none;
+            }
+
+            .petunjuk-content {
+                margin-top: 8vh;
+            }
+
+            .petunjuk-title {
+                font-size: 3.5vw;
+            }
+
+            .petunjuk-text {
+                font-size: 2.5vw;
+            }
+
+            .petunjuk-step {
+                font-size: 2.2vw;
+            }
+
+            .step-number {
+                width: 4vw;
+                height: 4vw;
+                min-width: 20px;
+                min-height: 20px;
+                font-size: 2vw;
+            }
+
+            .btn-selanjutnya img {
+                max-width: 12vw;
+            }
+
+            .btn-selanjutnya {
+                margin-top: 3vh;
+            }
+
+            /* Main */
+            .main-content {
+                padding: 10vh 2vw 2vh;
+                height: 100vh;
+            }
+
+            .main-board-row {
+                flex-direction: row;
+                align-items: center;
+                gap: 2vw;
+            }
+
+            .main-board-container {
+                max-width: 50vw;
+            }
+
+            .main-skor-display img {
+                width: 16vw;
+            }
+
+            .skor-label {
+                font-size: 2.5vw;
+            }
+
+            .main-side-btn img {
+                width: 8vw;
+            }
+
+            .main-card {
+                width: 14vw;
+                height: 21vw;
+                border-radius: 1.5vw;
+                border-width: 0.3vw;
+            }
+
+            .main-cards {
+                gap: 1.5vw;
+            }
+
+            .hero-name-label {
+                font-size: 2vw;
+                padding: 0.5vh 2vw;
+            }
+
+            /* Penutup */
+            .penutup-panel {
+                padding: 3vh 4vw;
+                width: 80vw;
+                border-radius: 2vw;
+                border-width: 0.3vw;
+            }
+
+            .penutup-title {
+                font-size: 3.5vw;
+            }
+
+            .penutup-score {
+                font-size: 6vw;
+            }
+
+            .penutup-message {
+                font-size: 2.5vw;
+            }
+
+            .btn-ulangi img,
+            .btn-home img {
+                max-width: 14vw;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .judul-container img {
+                max-width: 80vw;
+            }
+
+            .misi-section {
+                width: 85vw;
+            }
+
+            .misi-content h3 {
+                font-size: 3.2vw;
+            }
+
+            .misi-content p,
+            .misi-content ul {
+                font-size: 2.8vw;
+            }
+
+            .btn-mulai img {
+                max-width: 40vw;
+            }
+
+            .petunjuk-panel {
+                padding: 2vh 3vw;
+                width: 96vw;
+            }
+
+            .petunjuk-content {
+                margin-top: 5vh;
+            }
+
+            .petunjuk-title {
+                font-size: 4.5vw;
+            }
+
+            .petunjuk-text {
+                font-size: 3.2vw;
+            }
+
+            .petunjuk-step {
+                font-size: 3vw;
+            }
+
+            .main-board-container {
+                max-width: 65vw;
+            }
+
+            .main-card {
+                width: 18vw;
+                height: 27vw;
+            }
+
+            .main-cards {
+                gap: 1vw;
+            }
+
+            .main-skor-display img {
+                width: 20vw;
+            }
+
+            .skor-label {
+                font-size: 3vw;
+            }
+
+            .main-side-btn img {
+                width: 10vw;
+            }
+
+            .penutup-panel {
+                width: 90vw;
+                padding: 2vh 3vw;
+            }
+
+            .penutup-title {
+                font-size: 4.5vw;
+            }
+
+            .penutup-score {
+                font-size: 8vw;
+            }
+
+            .penutup-message {
+                font-size: 3.2vw;
+            }
+
+            .btn-ulangi img,
+            .btn-home img {
+                max-width: 18vw;
+            }
+        }
     </style>
 </head>
 <body>
+    <!-- Rotate to Landscape Overlay -->
+    <div class="rotate-overlay" id="rotate-overlay">
+        <svg class="rotate-icon" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="30" y="10" width="40" height="70" rx="6" stroke="#efede7" stroke-width="3" fill="none"/>
+            <rect x="37" y="18" width="26" height="48" rx="2" fill="rgba(239,237,231,0.2)"/>
+            <circle cx="50" cy="75" r="3" fill="#efede7"/>
+            <path d="M55 90 L70 90" stroke="#efede7" stroke-width="3" stroke-linecap="round"/>
+            <path d="M62 83 L62 97" stroke="#efede7" stroke-width="3" stroke-linecap="round"/>
+            <path d="M55 90 L55 82 L62 82" stroke="#efede7" stroke-width="2" stroke-linecap="round" fill="none"/>
+            <path d="M70 90 L70 98 L62 98" stroke="#efede7" stroke-width="2" stroke-linecap="round" fill="none"/>
+        </svg>
+        <div class="rotate-text">Putar perangkat ke mode Landscape untuk pengalaman terbaik</div>
+    </div>
+
     <div class="game-container">
         <!-- SCREEN 1: PEMBUKA -->
         <div id="screen-pembuka" class="screen active">
@@ -1926,6 +2245,24 @@
                 bgm.play().catch(() => {});
             }
         }, { once: true });
+
+        // ========== ORIENTATION DETECTION ==========
+        function checkOrientation() {
+            const overlay = document.getElementById('rotate-overlay');
+            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            const isPortrait = window.innerHeight > window.innerWidth;
+            if (isMobile && isPortrait) {
+                overlay.classList.add('show');
+            } else {
+                overlay.classList.remove('show');
+            }
+        }
+
+        window.addEventListener('resize', checkOrientation);
+        window.addEventListener('orientationchange', () => {
+            setTimeout(checkOrientation, 200);
+        });
+        document.addEventListener('DOMContentLoaded', checkOrientation);
     </script>
 </body>
 </html>
