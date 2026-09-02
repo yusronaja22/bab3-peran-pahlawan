@@ -1172,6 +1172,70 @@
                 margin-top: 30px;
             }
         }
+
+        /* ========== TUTORIAL OVERLAY ========== */
+        .tutorial-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 100;
+            pointer-events: none;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .tutorial-overlay.show {
+            display: block;
+            opacity: 1;
+        }
+
+        .tutorial-text {
+            position: absolute;
+            top: 15%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            color: #fff;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-size: clamp(14px, 3vh, 20px);
+            text-align: center;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            pointer-events: none;
+            width: 80%;
+            max-width: 400px;
+        }
+
+        .tutorial-hand {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            z-index: 101;
+            pointer-events: none;
+            filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.5));
+            opacity: 0;
+        }
+
+
+
+        .highlight-tutorial {
+            position: relative;
+            z-index: 101 !important;
+            box-shadow: 0 0 20px 10px rgba(251, 209, 6, 0.8) !important;
+            transform: scale(1.05) !important;
+            animation: pulse-glow 1.5s infinite alternate;
+        }
+
+        @keyframes pulse-glow {
+            from { box-shadow: 0 0 10px 5px rgba(251, 209, 6, 0.6); }
+            to { box-shadow: 0 0 25px 15px rgba(251, 209, 6, 1); }
+        }
+
     </style>
 </head>
 <body>
@@ -1294,6 +1358,13 @@
                 </div>
             </div>
             <div class="screen-body">
+                <!-- TUTORIAL OVERLAY -->
+                <div id="tutorial-overlay" class="tutorial-overlay">
+                    <div class="tutorial-text">Tahan dan pindahkan kartu ke kotak yang kosong!</div>
+                    <svg class="tutorial-hand" viewBox="0 0 24 24" fill="white" stroke="#333" stroke-width="1.5">
+                        <path d="M9 11.24V7.5C9 6.12 10.12 5 11.5 5S14 6.12 14 7.5v3.74c1.21-.81 2.89-1.07 4.1-.21 1.05.74 1.4 2.1 1.4 3.47 0 2.92-2.14 5.5-5 5.5h-3c-3 0-5.5-2.14-5.5-5.5 0-1.87.5-3.5 1.5-4.5.62-.62 1.5-.75 2.5-.26z" />
+                    </svg>
+                </div>
             <div class="main-layout">
                 <div class="main-board-row">
                     <div class="main-skor-display" id="main-skor-display">
@@ -1434,21 +1505,15 @@
         let langkah_saat_ini = 0;
         const voPembuka = document.getElementById('vo-pembuka');
         const voPetunjuk = document.getElementById('vo-petunjuk');
-        let voPembukaSelesai = false;
-        let voPetunjukSelesai = false;
 
         voPembuka.onended = () => {
-            voPembukaSelesai = true;
             const bgm = document.getElementById('bgm');
             if (bgm && !bgm.paused) bgm.volume = 0.3;
-            renderPetunjuk();
         };
 
         voPetunjuk.onended = () => {
-            voPetunjukSelesai = true;
             const bgm = document.getElementById('bgm');
             if (bgm && !bgm.paused) bgm.volume = 0.3;
-            renderPetunjuk();
         };
 
         function renderPetunjuk() {
@@ -1463,29 +1528,23 @@
             } else if (langkah_saat_ini === 1) {
                 if (voPetunjuk) voPetunjuk.pause();
             } else if (langkah_saat_ini === 2) {
-                if (voPembuka) voPembuka.pause();
-                if (!voPetunjukSelesai && voPetunjuk.paused) {
+                if (voPembuka) {
+                    voPembuka.pause();
+                    voPembuka.currentTime = 0;
+                }
+                if (voPetunjuk && voPetunjuk.paused) {
                     voPetunjuk.play().then(() => {
                         const bgm = document.getElementById('bgm');
                         if (bgm && !bgm.paused) bgm.volume = 0.05;
-                    }).catch(e => {
-                        voPetunjukSelesai = true;
-                        renderPetunjuk();
-                    });
+                    }).catch(e => {});
                 }
             }
 
             // Update dots
             document.querySelectorAll('#dynamic-dots .carousel-dot').forEach((dot, i) => {
                 dot.classList.toggle('active', i === langkah_saat_ini);
-                // Block clicking on step 3 if pembuka is not finished
-                if (i === 2 && !voPembukaSelesai) {
-                    dot.style.pointerEvents = 'none';
-                    dot.style.opacity = '0.5';
-                } else {
-                    dot.style.pointerEvents = 'auto';
-                    dot.style.opacity = '1';
-                }
+                dot.style.pointerEvents = 'auto';
+                dot.style.opacity = '1';
             });
 
             // Update button
@@ -1496,20 +1555,18 @@
 
             if (langkah_saat_ini === petunjukData.length - 1) {
                 btn.innerHTML = "Mulai";
-                btn.onclick = startGame;
-                if (!voPetunjukSelesai) {
-                    btn.disabled = true;
-                    btn.style.opacity = '0.5';
-                    btn.style.cursor = 'not-allowed';
-                }
+                btn.onclick = () => {
+                    if (voPetunjuk) {
+                        voPetunjuk.pause();
+                        voPetunjuk.currentTime = 0;
+                    }
+                    const bgm = document.getElementById('bgm');
+                    if (bgm && !bgm.paused) bgm.volume = 0.3;
+                    startGame();
+                };
             } else {
                 btn.innerHTML = "Lanjut &gt;";
                 btn.onclick = nextStep;
-                if (langkah_saat_ini === 1 && !voPembukaSelesai) {
-                    btn.disabled = true;
-                    btn.style.opacity = '0.5';
-                    btn.style.cursor = 'not-allowed';
-                }
             }
         }
 
@@ -1541,8 +1598,6 @@
 
         function bukaPetunjuk() {
             langkah_saat_ini = 0;
-            voPembukaSelesai = false;
-            voPetunjukSelesai = false;
             if (voPembuka) {
                 voPembuka.currentTime = 0;
                 voPembuka.play().then(() => {
@@ -1550,7 +1605,6 @@
                     if (bgm && !bgm.paused) bgm.volume = 0.05;
                 }).catch(e => {
                     console.warn("Audio blocked:", e);
-                    voPembukaSelesai = true;
                 });
             }
             if (voPetunjuk) {
@@ -1576,7 +1630,6 @@
         }
 
         function nextStep() {
-            if (langkah_saat_ini === 1 && !voPembukaSelesai) return;
             if (langkah_saat_ini < petunjukData.length - 1) {
                 langkah_saat_ini++;
                 renderPetunjuk();
@@ -1584,7 +1637,6 @@
         }
 
         function goToStep(index) {
-            if (index === 2 && !voPembukaSelesai) return;
             langkah_saat_ini = index;
             renderPetunjuk();
         }
@@ -1647,16 +1699,92 @@
         let correctCount = 0;
         let pickedCardId = null;
         let dropZonesInitialized = false;
+        let hasSeenTutorial = false;
 
         // ========== SCREEN MANAGEMENT ==========
         function showScreen(screenId) {
             playSound('sfx-click');
+            
+            // Hentikan vo_penutup bila meninggalkan layar penutup (beranda atau ulangi)
+            const voPenutup = document.getElementById('vo-penutup');
+            if (voPenutup && screenId !== 'screen-penutup') {
+                voPenutup.pause();
+                voPenutup.currentTime = 0;
+            }
+
             document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
             document.getElementById(screenId).classList.add('active');
             setTimeout(fitScreen, 50);
         }
 
         // ========== GAME LOGIC ==========
+
+        function showTutorial(heroId) {
+            const overlay = document.getElementById('tutorial-overlay');
+            if (overlay) {
+                overlay.classList.add('show');
+                
+                // Highlight a correct card in the tray
+                const correctCard = document.querySelector('#main-cards .main-card[data-hero="' + heroId + '"]');
+                const handIcon = document.querySelector('.tutorial-hand');
+                const screenBody = document.querySelector('#screen-main .screen-body');
+
+                if (correctCard && handIcon && screenBody) {
+                    correctCard.classList.add('highlight-tutorial');
+                    
+                    // Calculate start position relative to screen-body
+                    const cardRect = correctCard.getBoundingClientRect();
+                    const bodyRect = screenBody.getBoundingClientRect();
+                    const startX = ((cardRect.left - bodyRect.left + cardRect.width / 2) / bodyRect.width) * 100;
+                    const startY = ((cardRect.top - bodyRect.top + cardRect.height / 2) / bodyRect.height) * 100;
+                    
+                    // Find an empty drop zone
+                    const dropZone = document.querySelector('.drop-zone:not(.occupied)');
+                    if (dropZone) {
+                        const dzRect = dropZone.getBoundingClientRect();
+                        const endX = ((dzRect.left - bodyRect.left + dzRect.width / 2) / bodyRect.width) * 100;
+                        const endY = ((dzRect.top - bodyRect.top + dzRect.height / 2) / bodyRect.height) * 100;
+                        
+                        handIcon.style.opacity = '1';
+                        
+                        const styleId = 'dynamic-hand-anim';
+                        let styleEl = document.getElementById(styleId);
+                        if (!styleEl) {
+                            styleEl = document.createElement('style');
+                            styleEl.id = styleId;
+                            document.head.appendChild(styleEl);
+                        }
+                        styleEl.innerHTML = `
+                            @keyframes dynamicDragHand {
+                                0% { top: ${startY}%; left: ${startX}%; transform: scale(1) translate(-50%, -50%); opacity: 1; }
+                                15% { top: ${startY}%; left: ${startX}%; transform: scale(0.85) translate(-50%, -50%); opacity: 1; }
+                                60% { top: ${endY}%; left: ${endX}%; transform: scale(0.85) translate(-50%, -50%); opacity: 1; }
+                                75% { top: ${endY}%; left: ${endX}%; transform: scale(1) translate(-50%, -50%); opacity: 1; }
+                                100% { top: ${endY}%; left: ${endX}%; transform: scale(1) translate(-50%, -50%); opacity: 0; }
+                            }
+                        `;
+                        handIcon.style.animation = 'dynamicDragHand 2.5s ease-in-out infinite';
+                    }
+                }
+
+                // Any interaction removes tutorial
+                document.addEventListener('mousedown', hideTutorial, { once: true });
+                document.addEventListener('touchstart', hideTutorial, { once: true });
+            }
+        }
+
+        function hideTutorial() {
+            if (hasSeenTutorial) return;
+            hasSeenTutorial = true;
+            const overlay = document.getElementById('tutorial-overlay');
+            if (overlay) {
+                overlay.classList.remove('show');
+            }
+            // Remove highlight
+            document.querySelectorAll('.highlight-tutorial').forEach(el => {
+                el.classList.remove('highlight-tutorial');
+            });
+        }
 
         function generateMainCards() {
             const container = document.getElementById('main-cards');
@@ -1692,12 +1820,17 @@
                 const j = Math.floor(Math.random() * (i + 1));
                 [distractorPool[i], distractorPool[j]] = [distractorPool[j], distractorPool[i]];
             }
-            tray.push(...distractorPool.slice(0, 4));
+            for (let i = 0; i < 4; i++) {
+                if (distractorPool[i]) tray.push(distractorPool[i]);
+            }
 
+            // Shuffle tray
             for (let i = tray.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
                 [tray[i], tray[j]] = [tray[j], tray[i]];
             }
+
+
 
             // Clear all drop zones
             for (let s = 0; s < 3; s++) {
@@ -1740,6 +1873,7 @@
                 div.setAttribute('draggable', 'true');
 
                 div.addEventListener('dragstart', function(e) {
+                    hideTutorial();
                     e.dataTransfer.setData('text/plain', this.id);
                     e.dataTransfer.effectAllowed = 'move';
                     this.classList.add('dragging');
@@ -1749,6 +1883,7 @@
                 });
 
                 div.addEventListener('click', function() {
+                    hideTutorial();
                     if (this.classList.contains('picked')) {
                         this.classList.remove('picked');
                         pickedCardId = null;
@@ -1768,6 +1903,10 @@
             }
 
             positionDropZones();
+
+            if (currentHeroIndex === 0 && !hasSeenTutorial) {
+                setTimeout(() => showTutorial(hero.id), 500);
+            }
         }
 
         function initDropZones() {
