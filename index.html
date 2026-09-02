@@ -1102,24 +1102,25 @@
             /* Adjust Petunjuk Panel Text */
             .petunjuk-panel {
                 width: 95%;
+                transform: translateY(0); /* Center perfectly on mobile */
             }
             .petunjuk-title {
-                font-size: clamp(16px, 4vh, 22px);
-                margin-bottom: 10px;
+                font-size: clamp(18px, 4.5vh, 26px);
+                margin-bottom: 12px;
             }
             .petunjuk-text {
-                font-size: clamp(11px, 2.5vh, 14px);
+                font-size: clamp(14px, 3vh, 18px);
                 margin-bottom: 15px;
             }
             .petunjuk-step {
-                font-size: clamp(10px, 2.5vh, 13px);
+                font-size: clamp(12px, 3vh, 16px);
                 margin-bottom: 8px;
                 gap: 8px;
             }
             .step-number {
-                width: 22px;
-                height: 22px;
-                font-size: 11px;
+                width: 24px;
+                height: 24px;
+                font-size: 12px;
             }
 
             /* Adjust Main Game Screen Layout */
@@ -1188,6 +1189,18 @@
         <div class="rotate-text">Putar perangkat ke mode Landscape untuk pengalaman terbaik</div>
     </div>
 
+    <!-- Fullscreen Prompt Overlay -->
+    <div id="fullscreen-prompt" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1000; align-items: center; justify-content: center; flex-direction: column; color: white;">
+        <div style="background: white; color: #4f5c6c; padding: 30px; border-radius: 20px; text-align: center; max-width: 80%; width: 400px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+            <h3 style="margin-top: 0; color: #e8534f; font-size: 24px;">MODE LAYAR PENUH</h3>
+            <p style="font-size: 16px; margin-bottom: 25px; font-weight: 500;">Apakah Anda mau masuk ke mode layar penuh?</p>
+            <div style="display: flex; justify-content: center; gap: 15px;">
+                <button onclick="handleFullscreenPrompt(true)" class="btn-teks">Ya</button>
+                <button onclick="handleFullscreenPrompt(false)" class="btn-teks" style="background: #95a5a6; box-shadow: 0 4px 0 #7f8c8d;">Tidak</button>
+            </div>
+        </div>
+    </div>
+
     <div class="game-container">
         <!-- SCREEN 1: PEMBUKA -->
         <div id="screen-pembuka" class="screen active">
@@ -1209,7 +1222,7 @@
                 <div class="judul-container" style="margin-bottom: 40px;">
                     <img src="Asset/images/judul.svg" alt="Peran Pahlawan" class="float-anim" style="max-width: 80%;">
                 </div>
-                <button class="btn-mulai" onclick="bukaPetunjuk()" aria-label="Mulai" style="transform: scale(1.2);">
+                <button class="btn-mulai" onclick="promptFullscreen()" aria-label="Mulai" style="transform: scale(1.2);">
                     <img src="Asset/images/mulai.svg" alt="Mulai" class="float-anim-delayed">
                 </button>
             </div>
@@ -1498,6 +1511,32 @@
                     btn.style.cursor = 'not-allowed';
                 }
             }
+        }
+
+        function promptFullscreen() {
+            playSound('sfx-click');
+            // If already fullscreen, skip prompt
+            if (document.fullscreenElement || document.webkitFullscreenElement) {
+                bukaPetunjuk();
+                return;
+            }
+            document.getElementById('fullscreen-prompt').style.display = 'flex';
+        }
+
+        function handleFullscreenPrompt(wantsFullscreen) {
+            playSound('sfx-click');
+            document.getElementById('fullscreen-prompt').style.display = 'none';
+            if (wantsFullscreen) {
+                const elem = document.documentElement;
+                if (elem.requestFullscreen) {
+                    elem.requestFullscreen().catch(err => {
+                        console.warn("Error attempting to enable fullscreen:", err);
+                    });
+                } else if (elem.webkitRequestFullscreen) {
+                    elem.webkitRequestFullscreen().catch(() => {});
+                }
+            }
+            bukaPetunjuk();
         }
 
         function bukaPetunjuk() {
