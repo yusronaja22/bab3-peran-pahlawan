@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
@@ -47,6 +47,16 @@
 
         .screen.active {
             display: flex;
+        }
+
+        .screen-body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            transform-origin: center center;
         }
 
         /* ========== SCREEN 1: PEMBUKA ========== */
@@ -965,160 +975,6 @@
             font-family: 'Nunito', sans-serif;
         }
 
-        /* ========== RESPONSIVE ========== */
-        @media (max-width: 768px) {
-            .column-headers {
-                gap: 8px;
-                margin-bottom: 10px;
-            }
-
-            .column-header {
-                font-size: 11px;
-                padding: 6px 5px;
-            }
-
-            .cards-grid {
-                gap: 8px;
-                max-height: calc(100vh - 140px);
-            }
-
-            .card {
-                font-size: 10px;
-                padding: 5px;
-                min-height: 60px;
-            }
-
-            .card .card-label {
-                font-size: 8px;
-            }
-
-            .card .card-text {
-                font-size: 9px;
-            }
-
-            .petunjuk-panel,
-            .penutup-panel {
-                padding: 20px;
-                width: 95%;
-            }
-
-            .petunjuk-title,
-            .penutup-title {
-                font-size: 22px;
-            }
-
-            .petunjuk-text {
-                font-size: 14px;
-            }
-
-            .penutup-score {
-                font-size: 36px;
-            }
-
-            .btn-mulai img {
-                width: 160px;
-            }
-
-            .logo-kemendikdasmen {
-                width: 36px;
-                height: 36px;
-                min-width: 36px;
-                min-height: 36px;
-            }
-
-            .top-bar-btn {
-                width: 36px;
-                height: 36px;
-                min-width: 36px;
-                min-height: 36px;
-            }
-
-            .top-bar-btn img {
-                width: 36px;
-                height: 36px;
-            }
-
-            .header-btn {
-                display: none;
-            }
-
-            .score-display {
-                font-size: 13px;
-                padding: 6px 14px;
-            }
-
-            .main-card {
-                width: 120px;
-                height: 180px;
-            }
-
-            .main-cards {
-                gap: 10px;
-            }
-
-            .main-side-btn img {
-                width: 48px;
-            }
-
-            .main-skor-display img {
-                width: 90px;
-            }
-
-            .skor-label {
-                font-size: 17px;
-            }
-
-            .main-board-row {
-                gap: 10px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .cards-grid {
-                gap: 5px;
-            }
-
-            .card {
-                font-size: 8px;
-                min-height: 50px;
-                padding: 3px;
-            }
-
-            .column-header {
-                font-size: 9px;
-                padding: 4px 3px;
-            }
-
-            .main-content {
-                padding: 60px 10px 10px;
-            }
-
-            .main-card {
-                width: 90px;
-                height: 135px;
-            }
-
-            .main-cards {
-                gap: 6px;
-            }
-
-            .main-side-btn img {
-                width: 36px;
-            }
-
-            .main-skor-display img {
-                width: 70px;
-            }
-
-            .skor-label {
-                font-size: 11px;
-            }
-
-            .main-board-row {
-                gap: 6px;
-            }
-        }
-
         /* ========== FULLSCREEN ========== */
         .fullscreen-btn {
             display: none;
@@ -1187,270 +1043,38 @@
             max-width: 280px;
         }
 
-        /* ========== FULL RESPONSIVE (vw/vh) ========== */
+        /* ========== RESPONSIVE (scale-to-fit via JS) ========== */
         @media (max-width: 768px) {
-            .pembuka-content {
-                padding: 1.5vh 3vw 3vh;
-                gap: 0;
-            }
-
-            .judul-container img {
-                max-width: 70vw;
-            }
-
-            .misi-section {
-                width: 70vw;
-                max-width: none;
-            }
-
-            .misi-container {
-                aspect-ratio: 800 / 350;
-            }
-
-            .misi-content h3 {
-                font-size: 2.2vw;
-            }
-
-            .misi-content p,
-            .misi-content ul {
-                font-size: 1.8vw;
-            }
-
-            .carousel-btn {
-                width: 6vw;
-                height: 6vw;
-                font-size: 2.5vw;
-            }
-
-            .carousel-dot {
-                width: 2vw;
-                height: 2vw;
-            }
-
             .btn-mulai img {
                 max-width: 30vw;
             }
-
             .top-bar {
                 padding: 1.5vh 2vw;
             }
-
             .logo-kemendikdasmen {
-                width: 7vw;
-                height: 7vw;
-                min-width: 28px;
-                min-height: 28px;
+                width: 44px;
+                height: 44px;
+                min-width: 44px;
+                min-height: 44px;
             }
-
             .top-bar-btn {
-                width: 7vw;
-                height: 7vw;
-                min-width: 28px;
-                min-height: 28px;
+                width: 36px;
+                height: 36px;
+                min-width: 36px;
+                min-height: 36px;
             }
-
             .top-bar-btn img {
-                width: 100%;
-                height: 100%;
+                width: 36px;
+                height: 36px;
             }
-
-            /* Petunjuk */
             .petunjuk-panel {
-                padding: 3vh 4vw;
-                width: 92vw;
-                transform: none;
+                width: 92%;
             }
-
-            .petunjuk-content {
-                margin-top: 8vh;
+            .penutup-panel {
+                width: 90%;
             }
-
-            .petunjuk-title {
-                font-size: 3.5vw;
-            }
-
-            .petunjuk-text {
-                font-size: 2.5vw;
-            }
-
-            .petunjuk-step {
-                font-size: 2.2vw;
-            }
-
-            .step-number {
-                width: 4vw;
-                height: 4vw;
-                min-width: 20px;
-                min-height: 20px;
-                font-size: 2vw;
-            }
-
-            .btn-selanjutnya img {
-                max-width: 12vw;
-            }
-
             .btn-selanjutnya {
-                margin-top: 3vh;
-            }
-
-            /* Main */
-            .main-content {
-                padding: 10vh 2vw 2vh;
-                height: 100vh;
-            }
-
-            .main-board-row {
-                flex-direction: row;
-                align-items: center;
-                gap: 2vw;
-            }
-
-            .main-board-container {
-                max-width: 50vw;
-            }
-
-            .main-skor-display img {
-                width: 16vw;
-            }
-
-            .skor-label {
-                font-size: 2.5vw;
-            }
-
-            .main-side-btn img {
-                width: 8vw;
-            }
-
-            .main-card {
-                width: 14vw;
-                height: 21vw;
-                border-radius: 1.5vw;
-                border-width: 0.3vw;
-            }
-
-            .main-cards {
-                gap: 1.5vw;
-            }
-
-            .hero-name-label {
-                font-size: 2vw;
-                padding: 0.5vh 2vw;
-            }
-
-            /* Penutup */
-            .penutup-panel {
-                padding: 3vh 4vw;
-                width: 80vw;
-                border-radius: 2vw;
-                border-width: 0.3vw;
-            }
-
-            .penutup-title {
-                font-size: 3.5vw;
-            }
-
-            .penutup-score {
-                font-size: 6vw;
-            }
-
-            .penutup-message {
-                font-size: 2.5vw;
-            }
-
-            .btn-ulangi img,
-            .btn-home img {
-                max-width: 14vw;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .judul-container img {
-                max-width: 80vw;
-            }
-
-            .misi-section {
-                width: 85vw;
-            }
-
-            .misi-content h3 {
-                font-size: 3.2vw;
-            }
-
-            .misi-content p,
-            .misi-content ul {
-                font-size: 2.8vw;
-            }
-
-            .btn-mulai img {
-                max-width: 40vw;
-            }
-
-            .petunjuk-panel {
-                padding: 2vh 3vw;
-                width: 96vw;
-            }
-
-            .petunjuk-content {
-                margin-top: 5vh;
-            }
-
-            .petunjuk-title {
-                font-size: 4.5vw;
-            }
-
-            .petunjuk-text {
-                font-size: 3.2vw;
-            }
-
-            .petunjuk-step {
-                font-size: 3vw;
-            }
-
-            .main-board-container {
-                max-width: 65vw;
-            }
-
-            .main-card {
-                width: 18vw;
-                height: 27vw;
-            }
-
-            .main-cards {
-                gap: 1vw;
-            }
-
-            .main-skor-display img {
-                width: 20vw;
-            }
-
-            .skor-label {
-                font-size: 3vw;
-            }
-
-            .main-side-btn img {
-                width: 10vw;
-            }
-
-            .penutup-panel {
-                width: 90vw;
-                padding: 2vh 3vw;
-            }
-
-            .penutup-title {
-                font-size: 4.5vw;
-            }
-
-            .penutup-score {
-                font-size: 8vw;
-            }
-
-            .penutup-message {
-                font-size: 3.2vw;
-            }
-
-            .btn-ulangi img,
-            .btn-home img {
-                max-width: 18vw;
+                margin-top: 30px;
             }
         }
     </style>
@@ -1486,6 +1110,7 @@
                     </button>
                 </div>
             </div>
+            <div class="screen-body">
             <div class="pembuka-content fade-in">
                 <div class="judul-container">
                     <img src="Asset/images/judul.svg" alt="Peran Pahlawan">
@@ -1526,6 +1151,7 @@
                     <img src="Asset/images/mulai.svg" alt="Mulai">
                 </button>
             </div>
+            </div>
         </div>
 
         <!-- SCREEN 2: PETUNJUK -->
@@ -1543,6 +1169,7 @@
                     </button>
                 </div>
             </div>
+            <div class="screen-body">
             <div class="petunjuk-panel fade-in">
                 <div class="petunjuk-content">
                     <div class="petunjuk-title">Petunjuk Permainan</div>
@@ -1569,6 +1196,7 @@
                     <img src="Asset/images/btn_next.svg" alt="Selanjutnya">
                 </button>
             </div>
+            </div>
         </div>
 
         <!-- SCREEN 3: MAIN -->
@@ -1586,6 +1214,7 @@
                     </button>
                 </div>
             </div>
+            <div class="screen-body">
             <div class="main-layout">
                 <div class="main-board-row">
                     <div class="main-skor-display" id="main-skor-display">
@@ -1605,6 +1234,7 @@
                 </div>
                 <div class="main-cards" id="main-cards"></div>
             </div>
+            </div>
         </div>
 
         <!-- SCREEN 4: PENUTUP -->
@@ -1622,6 +1252,7 @@
                     </button>
                 </div>
             </div>
+            <div class="screen-body">
             <div class="penutup-panel fade-in">
                 <div class="penutup-title">Selamat Skor Kamu :</div>
                 <div class="penutup-score" id="final-score">0</div>
@@ -1634,6 +1265,7 @@
                         <img src="Asset/images/btn_close.svg" alt="Beranda">
                     </button>
                 </div>
+            </div>
             </div>
         </div>
     </div>
@@ -1764,6 +1396,7 @@
             playSound('sfx-click');
             document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
             document.getElementById(screenId).classList.add('active');
+            setTimeout(fitScreen, 50);
 
             if (screenId === 'screen-pembuka') {
                 const mulaiBtn = document.querySelector('.btn-mulai');
@@ -2236,6 +1869,7 @@
         // ========== INIT ==========
         document.addEventListener('DOMContentLoaded', () => {
             showScreen('screen-pembuka');
+            fitScreen();
         });
 
         // Auto-play on first interaction
@@ -2245,6 +1879,27 @@
                 bgm.play().catch(() => {});
             }
         }, { once: true });
+
+        // ========== SCALE-TO-FIT ==========
+        function fitScreen() {
+            const active = document.querySelector('.screen.active');
+            if (!active) return;
+            const body = active.querySelector('.screen-body');
+            if (!body) return;
+            // reset transform to measure natural size
+            body.style.transform = 'none';
+            body.style.width = '';
+            body.style.height = '';
+            const margin = 24;
+            const availW = window.innerWidth - margin * 2;
+            const availH = window.innerHeight - margin * 2;
+            const natW = body.scrollWidth;
+            const natH = body.scrollHeight;
+            let scale = Math.min(availW / natW, availH / natH, 1);
+            scale = Math.max(0.15, scale);
+            body.style.transformOrigin = 'center center';
+            body.style.transform = 'scale(' + scale + ')';
+        }
 
         // ========== ORIENTATION DETECTION ==========
         function checkOrientation() {
@@ -2261,8 +1916,15 @@
         window.addEventListener('resize', checkOrientation);
         window.addEventListener('orientationchange', () => {
             setTimeout(checkOrientation, 200);
+            setTimeout(fitScreen, 250);
         });
         document.addEventListener('DOMContentLoaded', checkOrientation);
+
+        let resizeTimer;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(fitScreen, 150);
+        });
     </script>
 </body>
 </html>
