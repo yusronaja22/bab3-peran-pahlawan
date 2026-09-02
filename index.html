@@ -231,20 +231,14 @@
         }
 
         .btn-mulai {
-            display: inline-block;
-            cursor: pointer;
             background: none;
+            color: white;
             border: none;
             padding: 0;
-            margin-top: 15px;
-            transition: transform 0.2s ease, opacity 0.3s ease;
-            opacity: 0.3;
-            pointer-events: none;
-        }
-
-        .btn-mulai.enabled {
-            opacity: 1;
-            pointer-events: all;
+            cursor: pointer;
+            transition: transform 0.2s ease, filter 0.3s ease;
+            display: block;
+            margin: 20px auto 0;
         }
 
         .btn-mulai:hover {
@@ -259,6 +253,20 @@
         .btn-mulai img {
             width: 80%;
             height: auto;
+        }
+
+        @keyframes floatAnim {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-12px); }
+        }
+
+        .float-anim {
+            animation: floatAnim 3s ease-in-out infinite;
+        }
+
+        .float-anim-delayed {
+            animation: floatAnim 3.5s ease-in-out infinite;
+            animation-delay: 0.5s;
         }
 
         /* Top bar - shared across all screens */
@@ -323,9 +331,6 @@
 
         .petunjuk-panel {
             position: relative;
-            background: url('Asset/images/petunjuk.svg') center/contain no-repeat;
-            border-radius: 0;
-            padding: 11% 11% 14%;
             max-width: 700px;
             width: 90%;
             text-align: center;
@@ -333,9 +338,20 @@
             border: none;
             transform: translateY(-8%);
         }
+        
+        .petunjuk-bg {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
 
         .petunjuk-content {
-            margin-top: 25%;
+            margin-top: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
         }
 
         .petunjuk-title {
@@ -396,16 +412,9 @@
             border: none;
             padding: 0;
             cursor: pointer;
-            transition: all 0.2s ease, opacity 0.3s ease;
+            transition: all 0.2s ease, filter 0.3s ease;
             display: block;
             margin: 100px auto 0;
-            opacity: 0.3;
-            pointer-events: none;
-        }
-
-        .btn-selanjutnya.enabled {
-            opacity: 1;
-            pointer-events: all;
         }
 
         .btn-selanjutnya img {
@@ -1197,43 +1206,11 @@
             </div>
             <div class="screen-body">
             <div class="pembuka-content fade-in">
-                <div class="judul-container">
-                    <img src="Asset/images/judul.svg" alt="Peran Pahlawan">
+                <div class="judul-container" style="margin-bottom: 40px;">
+                    <img src="Asset/images/judul.svg" alt="Peran Pahlawan" class="float-anim" style="max-width: 80%;">
                 </div>
-                <div class="misi-section">
-                    <div class="misi-container">
-                        <img class="misi-bg" src="Asset/images/misi.svg" alt="">
-                        <div class="misi-carousel-wrapper">
-                            <div class="misi-carousel" id="misiCarousel">
-                                <div class="misi-slide">
-                                    <div class="misi-content">
-                                        <h3>Tujuan Pembelajaran</h3>
-                                        <ul>
-                                            <li>Mencari tahu Peran Perjuangan para pahlawan bagi daerah tempat tinggal.</li>
-                                            <li>Mengelaborasi Peran Perjuangan para pahlawan bagi daerah tempat tinggal.</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="misi-slide">
-                                    <div class="misi-content">
-                                        <h3>Misi</h3>
-                                        <p>Pasangkan 3 set kartu Pahlawan yang berisi Foto, Nama dan Asal, serta Peran Perjuangannya secara tepat!</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="carousel-nav">
-                        <button class="carousel-btn" onclick="prevSlide()">&lt;</button>
-                        <div class="carousel-dots">
-                            <button class="carousel-dot active" onclick="goToSlide(0)"></button>
-                            <button class="carousel-dot" onclick="goToSlide(1)"></button>
-                        </div>
-                        <button class="carousel-btn" onclick="nextSlide()">&gt;</button>
-                    </div>
-                </div>
-                <button class="btn-mulai" onclick="showScreen('screen-petunjuk')" aria-label="Mulai">
-                    <img src="Asset/images/mulai.svg" alt="Mulai">
+                <button class="btn-mulai" onclick="bukaPetunjuk()" aria-label="Mulai" style="transform: scale(1.2);">
+                    <img src="Asset/images/mulai.svg" alt="Mulai" class="float-anim-delayed">
                 </button>
             </div>
             </div>
@@ -1256,30 +1233,34 @@
             </div>
             <div class="screen-body">
             <div class="petunjuk-panel fade-in">
-                <div class="petunjuk-content">
-                    <div class="petunjuk-title">Petunjuk Permainan</div>
-                    <div class="petunjuk-steps">
-                        <div class="petunjuk-step">
-                            <div class="step-number">1</div>
-                            <div>Di layar permainan, kamu akan melihat 3 kolom kosong untuk menyusun kartu. Kamu bebas menempatkan kartu Foto, Asal Daerah, atau Peran Pahlawan ke kolom mana saja.</div>
-                        </div>
-                        <div class="petunjuk-step">
-                            <div class="step-number">2</div>
-                            <div>Perhatikan kartu petunjuk (hint) yang muncul di salah satu kolom (bisa berupa foto, profil, atau peran secara acak).</div>
-                        </div>
-                        <div class="petunjuk-step">
-                            <div class="step-number">3</div>
-                            <div>Cari dan pilih 2 kartu jawaban yang paling tepat dari 6 pilihan kartu yang tersedia di bawah untuk melengkapi pasangan kartu yang sesuai dengan soal. Hati-hati dengan kartu pengecoh, ya!</div>
-                        </div>
-                        <div class="petunjuk-step">
-                            <div class="step-number">4</div>
-                            <div>Setiap jawaban yang benar akan memberimu +20 poin. Tapi ingat, kalau tebakanmu keliru, skormu akan dikurangi -5 poin. Teliti sebelum memilih, ya!</div>
+                <img class="petunjuk-bg" src="Asset/images/petunjuk.svg" alt="">
+                <div class="petunjuk-overlay" style="position: absolute; top: 14%; bottom: 8%; left: 8%; right: 8%; display: flex; flex-direction: column;">
+                    <!-- Top section with title, step indicator, and close button -->
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px; position: relative;">
+                        <div class="petunjuk-title" id="dynamic-title" style="margin-bottom: 0; text-align: left;">Tujuan Pembelajaran</div>
+                        <div style="display: flex; align-items: center; gap: 15px;">
+                            <div id="step-indicator" style="font-weight: 800; color: #4f5c6c; font-size: 18px;">1/3</div>
+                            <button onclick="tutupPetunjuk()" style="background: none; border: none; cursor: pointer; padding: 0; display: flex; align-items: center; justify-content: center;" title="Tutup">
+                                <img src="Asset/images/btn_close.svg" alt="Tutup" style="width: 30px; height: 30px;">
+                            </button>
                         </div>
                     </div>
+                    
+                    <!-- Content area -->
+                    <div class="petunjuk-content" id="dynamic-content" style="flex: 1; text-align: left; overflow-y: auto;">
+                        <!-- content goes here dynamically -->
+                    </div>
+                    
+                    <!-- Bottom section -->
+                    <div class="carousel-nav" style="margin-top: 10px; margin-bottom: 5px; justify-content: space-between; display: flex; align-items: center; width: 100%;">
+                        <div class="carousel-dots" id="dynamic-dots" style="flex: 1; justify-content: flex-start; margin-left: 10px;">
+                            <button class="carousel-dot active" onclick="goToStep(0)"></button>
+                            <button class="carousel-dot" onclick="goToStep(1)"></button>
+                            <button class="carousel-dot" onclick="goToStep(2)"></button>
+                        </div>
+                        <button id="btn-lanjut" onclick="nextStep()" class="btn-teks" style="margin-right: 10px; font-size: 14px; padding: 6px 16px;">Lanjut &gt;</button>
+                    </div>
                 </div>
-                <button class="btn-selanjutnya" onclick="startGame()">
-                    <img src="Asset/images/btn_next.svg" alt="Selanjutnya">
-                </button>
             </div>
             </div>
         </div>
@@ -1391,31 +1372,183 @@
     </audio>
 
     <script>
-        // ========== CAROUSEL ==========
-        let currentSlide = 0;
-        const totalSlides = 2;
+        // ========== LOGIKA PETUNJUK (MODAL POP-UP) ==========
+        const petunjukData = [
+            {
+                judul: "Tujuan Pembelajaran",
+                konten_teks: `
+                    <div class="petunjuk-text" style="text-align: left; max-width: 90%; margin: 0 auto;">
+                        <ul style="padding-left: 18px; margin: 0; line-height: 1.5;">
+                            <li style="margin-bottom: 8px;">Mencari tahu Peran Perjuangan para pahlawan bagi daerah tempat tinggal.</li>
+                            <li>Mengelaborasi Peran Perjuangan para pahlawan bagi daerah tempat tinggal.</li>
+                        </ul>
+                    </div>
+                `
+            },
+            {
+                judul: "Misi",
+                konten_teks: `
+                    <div class="petunjuk-text" style="padding: 0 10px;">
+                        Pasangkan 3 set kartu Pahlawan yang berisi Foto, Nama dan Asal, serta Peran Perjuangannya secara tepat!
+                    </div>
+                `
+            },
+            {
+                judul: "Petunjuk Permainan",
+                konten_teks: `
+                    <div class="petunjuk-steps" style="padding: 0 10px;">
+                        <div class="petunjuk-step">
+                            <div class="step-number">1</div>
+                            <div>Di layar permainan, kamu akan melihat 3 kolom kosong untuk menyusun kartu. Kamu bebas menempatkan kartu Foto, Asal Daerah, atau Peran Pahlawan ke kolom mana saja.</div>
+                        </div>
+                        <div class="petunjuk-step">
+                            <div class="step-number">2</div>
+                            <div>Perhatikan kartu petunjuk (hint) yang muncul di salah satu kolom (bisa berupa foto, profil, atau peran secara acak).</div>
+                        </div>
+                        <div class="petunjuk-step">
+                            <div class="step-number">3</div>
+                            <div>Cari dan pilih 2 kartu jawaban yang paling tepat dari 6 pilihan kartu yang tersedia di bawah untuk melengkapi pasangan kartu yang sesuai dengan soal. Hati-hati dengan kartu pengecoh, ya!</div>
+                        </div>
+                        <div class="petunjuk-step">
+                            <div class="step-number">4</div>
+                            <div>Setiap jawaban yang benar akan memberimu +20 poin. Tapi ingat, kalau tebakanmu keliru, skormu akan dikurangi -5 poin. Teliti sebelum memilih, ya!</div>
+                        </div>
+                    </div>
+                `
+            }
+        ];
 
-        function goToSlide(index) {
-            currentSlide = index;
-            const carousel = document.getElementById('misiCarousel');
-            carousel.style.transform = `translateX(-${index * 100}%)`;
-            document.querySelectorAll('.carousel-dot').forEach((dot, i) => {
-                dot.classList.toggle('active', i === index);
+        let langkah_saat_ini = 0;
+        const voPembuka = document.getElementById('vo-pembuka');
+        const voPetunjuk = document.getElementById('vo-petunjuk');
+        let voPembukaSelesai = false;
+        let voPetunjukSelesai = false;
+
+        voPembuka.onended = () => {
+            voPembukaSelesai = true;
+            const bgm = document.getElementById('bgm');
+            if (bgm && !bgm.paused) bgm.volume = 0.3;
+            renderPetunjuk();
+        };
+
+        voPetunjuk.onended = () => {
+            voPetunjukSelesai = true;
+            const bgm = document.getElementById('bgm');
+            if (bgm && !bgm.paused) bgm.volume = 0.3;
+            renderPetunjuk();
+        };
+
+        function renderPetunjuk() {
+            const data = petunjukData[langkah_saat_ini];
+            document.getElementById('dynamic-title').innerHTML = data.judul;
+            document.getElementById('dynamic-content').innerHTML = data.konten_teks;
+            document.getElementById('step-indicator').innerText = `${langkah_saat_ini + 1}/3`;
+            
+            // Handle Audio Playback
+            if (langkah_saat_ini === 0) {
+                if (voPetunjuk) voPetunjuk.pause();
+            } else if (langkah_saat_ini === 1) {
+                if (voPetunjuk) voPetunjuk.pause();
+            } else if (langkah_saat_ini === 2) {
+                if (voPembuka) voPembuka.pause();
+                if (!voPetunjukSelesai && voPetunjuk.paused) {
+                    voPetunjuk.play().then(() => {
+                        const bgm = document.getElementById('bgm');
+                        if (bgm && !bgm.paused) bgm.volume = 0.05;
+                    }).catch(e => {
+                        voPetunjukSelesai = true;
+                        renderPetunjuk();
+                    });
+                }
+            }
+
+            // Update dots
+            document.querySelectorAll('#dynamic-dots .carousel-dot').forEach((dot, i) => {
+                dot.classList.toggle('active', i === langkah_saat_ini);
+                // Block clicking on step 3 if pembuka is not finished
+                if (i === 2 && !voPembukaSelesai) {
+                    dot.style.pointerEvents = 'none';
+                    dot.style.opacity = '0.5';
+                } else {
+                    dot.style.pointerEvents = 'auto';
+                    dot.style.opacity = '1';
+                }
             });
+
+            // Update button
+            const btn = document.getElementById('btn-lanjut');
+            btn.disabled = false;
+            btn.style.opacity = '1';
+            btn.style.cursor = 'pointer';
+
+            if (langkah_saat_ini === petunjukData.length - 1) {
+                btn.innerHTML = "Mulai";
+                btn.onclick = startGame;
+                if (!voPetunjukSelesai) {
+                    btn.disabled = true;
+                    btn.style.opacity = '0.5';
+                    btn.style.cursor = 'not-allowed';
+                }
+            } else {
+                btn.innerHTML = "Lanjut &gt;";
+                btn.onclick = nextStep;
+                if (langkah_saat_ini === 1 && !voPembukaSelesai) {
+                    btn.disabled = true;
+                    btn.style.opacity = '0.5';
+                    btn.style.cursor = 'not-allowed';
+                }
+            }
         }
 
-        function prevSlide() {
-            goToSlide((currentSlide - 1 + totalSlides) % totalSlides);
+        function bukaPetunjuk() {
+            langkah_saat_ini = 0;
+            voPembukaSelesai = false;
+            voPetunjukSelesai = false;
+            if (voPembuka) {
+                voPembuka.currentTime = 0;
+                voPembuka.play().then(() => {
+                    const bgm = document.getElementById('bgm');
+                    if (bgm && !bgm.paused) bgm.volume = 0.05;
+                }).catch(e => {
+                    console.warn("Audio blocked:", e);
+                    voPembukaSelesai = true;
+                });
+            }
+            if (voPetunjuk) {
+                voPetunjuk.currentTime = 0;
+            }
+            renderPetunjuk();
+            showScreen('screen-petunjuk');
         }
 
-        function nextSlide() {
-            goToSlide((currentSlide + 1) % totalSlides);
+        function tutupPetunjuk() {
+            if (voPembuka) {
+                voPembuka.pause();
+                voPembuka.currentTime = 0;
+            }
+            if (voPetunjuk) {
+                voPetunjuk.pause();
+                voPetunjuk.currentTime = 0;
+            }
+            const bgm = document.getElementById('bgm');
+            if (bgm && !bgm.paused) bgm.volume = 0.3;
+            
+            showScreen('screen-pembuka');
         }
 
-        setInterval(() => {
-            nextSlide();
-        }, 5000);
+        function nextStep() {
+            if (langkah_saat_ini === 1 && !voPembukaSelesai) return;
+            if (langkah_saat_ini < petunjukData.length - 1) {
+                langkah_saat_ini++;
+                renderPetunjuk();
+            }
+        }
 
+        function goToStep(index) {
+            if (index === 2 && !voPembukaSelesai) return;
+            langkah_saat_ini = index;
+            renderPetunjuk();
+        }
         // ========== GAME DATA ==========
         const heroes = [
             {
@@ -1482,46 +1615,6 @@
             document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
             document.getElementById(screenId).classList.add('active');
             setTimeout(fitScreen, 50);
-
-            if (screenId === 'screen-pembuka') {
-                const mulaiBtn = document.querySelector('.btn-mulai');
-                mulaiBtn.classList.remove('enabled');
-                const vo = document.getElementById('vo-pembuka');
-                const bgm = document.getElementById('bgm');
-                vo.currentTime = 0;
-                vo.volume = 1;
-                
-                let voStarted = false;
-                document.getElementById('screen-pembuka').onclick = () => {
-                    if (!voStarted && !mulaiBtn.classList.contains('enabled')) {
-                        voStarted = true;
-                        vo.play().then(() => {
-                            if (!bgm.paused) bgm.volume = 0.05;
-                        }).catch(() => {
-                            voStarted = false;
-                        });
-                    }
-                };
-
-                vo.onended = function() {
-                    mulaiBtn.classList.add('enabled');
-                    if (!bgm.paused) bgm.volume = 0.3;
-                };
-            } else if (screenId === 'screen-petunjuk') {
-                const lanjutBtn = document.querySelector('.btn-selanjutnya');
-                lanjutBtn.classList.remove('enabled');
-                const vo = document.getElementById('vo-petunjuk');
-                const bgm = document.getElementById('bgm');
-                vo.currentTime = 0;
-                vo.volume = 1;
-                vo.play().then(() => {
-                    if (!bgm.paused) bgm.volume = 0.05;
-                }).catch(() => {});
-                vo.onended = function() {
-                    lanjutBtn.classList.add('enabled');
-                    if (!bgm.paused) bgm.volume = 0.3;
-                };
-            }
         }
 
         // ========== GAME LOGIC ==========
