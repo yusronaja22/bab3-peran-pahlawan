@@ -875,8 +875,17 @@
             font-size: 18px;
             color: #4f5c6c;
             font-weight: 700;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
             line-height: 1.6;
+        }
+
+        .penutup-reflection {
+            font-size: 15px;
+            color: #4f5c6c;
+            font-weight: 600;
+            margin-bottom: 30px;
+            line-height: 1.5;
+            font-style: italic;
         }
 
         .btn-ulangi {
@@ -1165,7 +1174,11 @@
             }
             .penutup-message {
                 font-size: clamp(12px, 3vh, 14px);
-                margin-bottom: 15px;
+                margin-bottom: 10px;
+            }
+            .penutup-reflection {
+                font-size: clamp(11px, 2.5vh, 13px);
+                margin-bottom: 20px;
             }
             
             .btn-selanjutnya {
@@ -1407,6 +1420,7 @@
                 <div class="penutup-title">Selamat Skor Kamu :</div>
                 <div class="penutup-score" id="final-score">0</div>
                 <div class="penutup-message" id="penutup-message"></div>
+                <div class="penutup-reflection">Apa ya manfaat dari perjuangan mereka yang masih bisa kita rasakan sampai sekarang? Serta, ceritakan juga nilai kepahlawanan apa yang mau kamu tiru untuk bikin daerahmu jadi lebih keren dan maju hari ini</div>
                 <div class="penutup-buttons">
                     <button class="btn-ulangi" onclick="resetGame()" title="Ulangi">
                         <img src="Asset/images/btn_ulangi.svg" alt="Ulangi">
@@ -1810,19 +1824,25 @@
             });
 
             const otherHeroes = heroes.filter(h => h.id !== hero.id);
-            const distractorPool = [];
-            otherHeroes.forEach(h => {
-                types.forEach(t => {
+            
+            // Memilih masing-masing 2 kartu pengecoh dari tipe yang tidak digunakan sebagai hint
+            neededTypes.forEach(t => {
+                const distractorPool = [];
+                otherHeroes.forEach(h => {
                     distractorPool.push({ heroId: h.id, type: t, img: h[imgKey[t]], hero: h });
                 });
+                
+                // Acak pool pengecoh untuk tipe ini
+                for (let i = distractorPool.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [distractorPool[i], distractorPool[j]] = [distractorPool[j], distractorPool[i]];
+                }
+                
+                // Ambil 2 kartu sebagai pengecoh
+                for (let i = 0; i < 2; i++) {
+                    if (distractorPool[i]) tray.push(distractorPool[i]);
+                }
             });
-            for (let i = distractorPool.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [distractorPool[i], distractorPool[j]] = [distractorPool[j], distractorPool[i]];
-            }
-            for (let i = 0; i < 4; i++) {
-                if (distractorPool[i]) tray.push(distractorPool[i]);
-            }
 
             // Shuffle tray
             for (let i = tray.length - 1; i > 0; i--) {
@@ -1953,6 +1973,15 @@
                 pc.addEventListener('click', function() {
                     const cardId = this.getAttribute('data-card-id');
                     if (!cardId || cardId === 'hint') return;
+
+                    const heroId = this.getAttribute('data-hero');
+                    const hero = heroes[currentHeroIndex];
+                    if (heroId === hero.id) {
+                        correctCount--;
+                        score -= 20;
+                        updateScore();
+                    }
+
                     const cardEl = document.getElementById(cardId);
                     if (cardEl) {
                         cardEl.style.display = '';
@@ -2075,7 +2104,7 @@
             playSound('sfx-win');
             playVoice('vo-penutup');
 
-            document.getElementById('final-score').textContent = Math.floor(score / 2);
+            document.getElementById('final-score').textContent = score;
 
             let message = '';
             const totalPossible = heroes.length * 2 * 20;
