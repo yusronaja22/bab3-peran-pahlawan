@@ -10,6 +10,7 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            font-family: 'Nunito', sans-serif !important;
         }
 
         body {
@@ -1509,7 +1510,7 @@
                         </div>
                         <div class="petunjuk-step">
                             <div class="step-number">4</div>
-                            <div>Setiap jawaban yang benar akan memberimu +20 poin. Tapi ingat, kalau tebakanmu keliru, skormu akan dikurangi -5 poin. Teliti sebelum memilih, ya!</div>
+                            <div>Setiap jawaban yang benar akan memberimu +10 poin. Tapi ingat, kalau tebakanmu keliru, skormu akan dikurangi -5 poin. Teliti sebelum memilih, ya!</div>
                         </div>
                     </div>
                 `
@@ -1978,7 +1979,7 @@
                     const hero = heroes[currentHeroIndex];
                     if (heroId === hero.id) {
                         correctCount--;
-                        score -= 20;
+                        score -= 10;
                         updateScore();
                     }
 
@@ -2045,7 +2046,7 @@
             const hero = heroes[currentHeroIndex];
             if (heroId === hero.id) {
                 correctCount++;
-                score += 20;
+                score += 10;
                 updateScore();
                 playSound('sfx-correct');
             } else {
@@ -2107,7 +2108,7 @@
             document.getElementById('final-score').textContent = score;
 
             let message = '';
-            const totalPossible = heroes.length * 2 * 20;
+            const totalPossible = heroes.length * 2 * 10;
             const percentage = (score / totalPossible) * 100;
 
             if (percentage >= 90) {
